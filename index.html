@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracker</title>
+    <meta name="description" content="A calm daily tracker for goals and memories.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar" aria-label="Tracker sidebar">
+            <a class="brand" href="#today-panel" aria-label="Tracker home">
+                <span class="brand-mark"><i data-lucide="layers-3"></i></span>
+                <span>Tracker</span>
+            </a>
+
+            <nav class="side-nav" aria-label="Sections">
+                <a class="side-nav-item active" href="#today-panel"><i data-lucide="clock-3"></i><span>Today</span></a>
+                <a class="side-nav-item" href="#journal-panel"><i data-lucide="file-text"></i><span>Notes</span></a>
+                <a class="side-nav-item" href="#recent-memories"><i data-lucide="heart"></i><span>Memories</span></a>
+            </nav>
+
+            <section class="mini-calendar" aria-labelledby="sidebar-calendar-title">
+                <h2 id="sidebar-calendar-title">Calendar</h2>
+                <div class="mini-calendar-head">
+                    <button id="prev-month" type="button" aria-label="Previous month"><i data-lucide="chevron-left"></i></button>
+                    <strong id="current-month-year">June 2026</strong>
+                    <button id="next-month" type="button" aria-label="Next month"><i data-lucide="chevron-right"></i></button>
+                </div>
+                <div class="weekday-grid" aria-hidden="true">
+                    <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+                </div>
+                <div id="calendar-days" class="calendar-days" aria-label="Calendar days"></div>
+            </section>
+
+            <div class="profile-card" aria-label="Current space">
+                <span class="profile-avatar"><i data-lucide="user-round"></i></span>
+                <div>
+                    <strong>My Space</strong>
+                    <small>Personal</small>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-area">
+            <header class="top-card">
+                <h1 id="selected-date-display">Today, Saturday, Jun 6</h1>
+                <div class="goal-progress" aria-label="Goal progress">
+                    <span id="progress-text">0/4 Goals</span>
+                    <div class="progress-track"><span id="progress-bar-fill"></span></div>
+                </div>
+            </header>
+
+            <div class="content-grid">
+                <section class="goals-card panel" id="today-panel" aria-labelledby="goals-title">
+                    <h2 id="goals-title">Activities &amp; Goals</h2>
+                    <div id="goals-list" class="goals-list"></div>
+                    <form id="add-goal-form" class="add-goal-form">
+                        <label class="sr-only" for="new-goal-input">Add a new goal</label>
+                        <input id="new-goal-input" type="text" placeholder="Add a new goal..." autocomplete="off" required>
+                        <button type="submit" aria-label="Add goal"><i data-lucide="plus"></i></button>
+                    </form>
+                </section>
+
+                <section class="journal-card panel" id="journal-panel" aria-labelledby="journal-title">
+                    <div class="journal-header">
+                        <h2 id="journal-title"><i data-lucide="pencil-line"></i>Memories &amp; Journal</h2>
+                        <span id="scrapbook-date">Today</span>
+                    </div>
+
+                    <form id="add-memory-form" class="journal-composer">
+                        <label class="sr-only" for="new-memory-input">Journal entry</label>
+                        <textarea id="new-memory-input" placeholder="What's on your mind today?" required></textarea>
+                        <input id="memory-image-file" type="file" accept="image/*" hidden>
+                        <input id="memory-mood" type="hidden" value="">
+
+                        <div id="image-preview-area" class="image-preview hidden">
+                            <img id="image-preview-img" alt="Journal image preview">
+                            <button id="remove-image-btn" type="button" aria-label="Remove image"><i data-lucide="x"></i></button>
+                        </div>
+
+                        <div id="mood-picker-popup" class="mood-picker hidden" aria-label="Choose mood">
+                            <button type="button" class="mood-btn" data-mood="&#128522;">&#128522; Happy</button>
+                            <button type="button" class="mood-btn" data-mood="&#129392;">&#129392; Loved</button>
+                            <button type="button" class="mood-btn" data-mood="&#129496;">&#129496; Calm</button>
+                            <button type="button" class="mood-btn" data-mood="&#127881;">&#127881; Excited</button>
+                        </div>
+
+                        <div class="composer-footer">
+                            <div class="composer-tabs">
+                                <button id="tab-text" class="composer-tab active" type="button"><span class="type-mark">Aa</span><span>Text</span></button>
+                                <button id="tab-photo" class="composer-tab" type="button"><i data-lucide="image"></i><span id="upload-status-text">Photo</span></button>
+                                <button id="tab-mood" class="composer-tab" type="button"><i data-lucide="smile"></i><span id="mood-status-text">Mood</span></button>
+                            </div>
+                            <button class="save-entry-btn" type="submit">Save Entry</button>
+                        </div>
+                    </form>
+
+                    <section class="recent-memories" id="recent-memories" aria-labelledby="recent-title">
+                        <h3 id="recent-title">Recent Memories</h3>
+                        <div id="memories-list" class="memories-list"></div>
+                    </section>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

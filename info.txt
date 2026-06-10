@@ -1,0 +1,64 @@
+## CONTEXT
+You are updating an existing HTML/CSS/JS file for a personal tracker website.
+The current code (Version 2) has a broken layout but a beautiful visual theme.
+The original code (Version 1) had a perfect layout but a generic style.
+
+## GOAL
+Produce new code that:
+1. Restores the **structural layout, spatial alignment, and composition** exactly as shown in the description of Version 1.
+2. Applies the **visual theme (fonts, colors, background, icons, spacing, rounded corners, shadows, etc.)** exactly as shown in the description of Version 2.
+3. Keeps **only** the features that were present in Version 1 – no extras.
+
+## FEATURE KEEP / REMOVE RULES
+
+### KEEP (must be present, arranged according to Version 1 layout)
+- **Today section** – including date (Saturday, Jun 6) and the “Activities & Goals” list (or “Today’s Focus” list – the content is the same, but the layout position matches Version 1).
+- **Memories & Journal section** – with input options: text, photo, mood, and a “Save Entry” button (exactly as Version 1).
+- **Recent Memories section** – showing logged entries (example: “June 6, 2026 – The website looks sm better today”).
+- **Calendar** – month view (June 2026) with days, day names, and any streak indicator only if Version 1 had it (Version 1 did not have a streak indicator, so do not add one).
+
+### REMOVE (must not appear anywhere in the new code)
+- “Life Journey” section (including milestone text and progress).
+- “Mood & Energy” section (the separate card with “How are you feeling?” and 0/2 completed).
+- “Dashboard”, “Goals”, “Memories”, “Journey” navigation tabs (unless they existed in Version 1 – they did not).
+- Any “0/2 completed” or similar completion counters.
+- “Connected / All changes saved” status message.
+- Any “Time blocks” item unless it was explicitly in Version 1’s goal list (Version 1 had no “Time blocks” – remove it).
+- Any other UI element that was not present in the original Version 1 layout.
+
+## LAYOUT RESTORATION (Version 1 structure)
+Refer to the following layout description of Version 1:
+- The page is divided into clear, left‑aligned or grid‑based sections.
+- Top heading: “Tracker” (or similar main title). Today’s date is shown prominently near the top.
+- Left side or main area: “Today” section with “Activities & Goals” list (items like “Practice English”, “Write script for Hackathon”, etc.) and an “Add a new goal...” placeholder.
+- Right side or adjacent area: “Memories & Journal” with “What’s on your mind today?” and buttons for “Aa”, “Text”, “Photo”, “Mood”, plus a “Save Entry” button.
+- Below that: “Recent Memories” showing past journal entries.
+- Somewhere on the page (typically next to or below today’s section): the “CALENDAR” with month name and day grid.
+- The spatial alignment, padding, margins, and relative positioning of these elements must exactly match what Version 1 had (i.e., no overlapping, no unexpected reordering).
+
+## VISUAL THEME (Version 2)
+Apply the exact visual styling from Version 2:
+- Background: soft gradient or solid light color (as seen in “Good Morning, Blue Sky”).
+- Typography: the specific font family (e.g., modern sans‑serif like Inter, Poppins, or similar), sizes, weights, and line heights.
+- Color palette: the blues, whites, grays, and accent colors used in Version 2.
+- Icons: the same icon style (e.g., outline icons for text, photo, mood, etc.) and placement.
+- Card style: rounded corners, subtle shadows, consistent spacing.
+- Button styles: rounded, minimal hover effects.
+- Calendar style: clean grid, subtle cell backgrounds, current day highlight if present in Version 2.
+- The overall “Blue Sky” aesthetic – keep every visual property identical to Version 2.
+
+## IMPLEMENTATION NOTES
+- Write clean, semantic HTML, CSS (or Tailwind if the original used it), and minimal JavaScript for interactivity (adding goals, saving memories).
+- Preserve all interactive functionality from Version 1 (e.g., adding a new goal, saving journal entries).
+- Ensure the final code is self‑contained, responsive, and matches the described layout exactly.
+- Do **not** add any extra features, debugging badges, or console logs.
+
+## FINAL CHECK
+Before outputting the code, verify:
+- [ ] Layout matches Version 1 (compare section positions and spacing).
+- [ ] Colors, fonts, background, and icons match Version 2.
+- [ ] “Life Journey”, “Mood & Energy”, and other forbidden features are completely absent.
+- [ ] Calendar, Today’s Focus/Activities, Memories & Journal, and Recent Memories are present and functional.
+
+Now produce the updated HTML/CSS/JS code.
+
