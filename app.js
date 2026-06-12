@@ -1,82 +1,89 @@
 const STORAGE_KEYS = {
-    goals: 'tracker:v1-goals',
-    memories: 'tracker:v1-memories'
+    goalsByDate: 'tracker:v3-goals-by-date',
+    legacyGoals: 'tracker:v2-focus-items',
+    memories: 'tracker:v2-memories'
 };
+
+const SUPABASE_CONFIG = {
+    url: '',
+    anonKey: ''
+};
+
+const DEFAULT_TODAY_GOALS = [
+    { id: createId(), text: 'practice english', done: false },
+    { id: createId(), text: 'do your homework', done: false },
+    { id: createId(), text: 'Time blocks', done: false }
+];
 
 const MONTH_FORMATTER = new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' });
 const HEADER_FORMATTER = new Intl.DateTimeFormat('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
 const MEMORY_FORMATTER = new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 
-let calendarMonth = new Date(2026, 5, 1);
-let selectedDate = new Date(2026, 5, 6);
-let selectedPhotoData = '';
+const today = startOfDay(new Date());
+let selectedDate = new Date(today);
+let calendarMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+let supabaseClient = null;
+let selectedMemoryPhotoData = '';
 
 const state = {
-    goals: loadState(STORAGE_KEYS.goals, [
-        { id: createId(), text: 'Practice English', done: false },
-        { id: createId(), text: 'Write script for Hackathon', done: false },
-        { id: createId(), text: 'Improve the design of this website', done: false },
-        { id: createId(), text: '20 minutes of no devices', done: false }
-    ]),
-    memories: loadState(STORAGE_KEYS.memories, [
-        {
-            id: createId(),
-            date: toDateKey(new Date(2026, 5, 6)),
-            text: 'The website looks sm better today',
-            mood: '\uD83D\uDE0A',
-            image: ''
-        }
-    ])
+    goalsByDate: loadGoalsByDate(),
+    memories: loadState(STORAGE_KEYS.memories, [])
 };
 
 const elements = {};
 
 document.addEventListener('DOMContentLoaded', init);
 
-function init() {
+async function init() {
     cacheElements();
     bindEvents();
+    supabaseClient = createSupabaseClient();
     renderAll();
+    await loadRemoteData();
 }
 
 function cacheElements() {
-    elements.currentMonthYear = document.getElementById('current-month-year');
-    elements.calendarDays = document.getElementById('calendar-days');
-    elements.prevMonth = document.getElementById('prev-month');
-    elements.nextMonth = document.getElementById('next-month');
     elements.selectedDateDisplay = document.getElementById('selected-date-display');
     elements.scrapbookDate = document.getElementById('scrapbook-date');
-    elements.progressText = document.getElementById('progress-text');
-    elements.progressBarFill = document.getElementById('progress-bar-fill');
+    elements.calendarTitle = document.getElementById('calendar-title');
+    elements.calendarDays = document.getElementById('calendar-days');
+    elements.calendarToday = document.getElementById('calendar-today');
+    elements.prevMonth = document.getElementById('prev-month');
+    elements.nextMonth = document.getElementById('next-month');
     elements.goalsList = document.getElementById('goals-list');
     elements.addGoalForm = document.getElementById('add-goal-form');
     elements.newGoalInput = document.getElementById('new-goal-input');
     elements.addMemoryForm = document.getElementById('add-memory-form');
     elements.memoryInput = document.getElementById('new-memory-input');
-    elements.memoryImageFile = document.getElementById('memory-image-file');
     elements.memoryMood = document.getElementById('memory-mood');
-    elements.imagePreviewArea = document.getElementById('image-preview-area');
-    elements.imagePreviewImg = document.getElementById('image-preview-img');
-    elements.removeImageBtn = document.getElementById('remove-image-btn');
     elements.moodPicker = document.getElementById('mood-picker-popup');
     elements.tabText = document.getElementById('tab-text');
-    elements.tabPhoto = document.getElementById('tab-photo');
     elements.tabMood = document.getElementById('tab-mood');
-    elements.uploadStatusText = document.getElementById('upload-status-text');
     elements.moodStatusText = document.getElementById('mood-status-text');
+    elements.memoryCountBadge = document.getElementById('memory-count-badge');
     elements.memoriesList = document.getElementById('memories-list');
+    elements.addPhotoMemoryForm = document.getElementById('add-photo-memory-form');
+    elements.photoMemoryInput = document.getElementById('new-photo-memory-input');
+    elements.photoMemoryFile = document.getElementById('photo-memory-file');
+    elements.photoMemoryUpload = document.getElementById('photo-memory-upload');
+    elements.photoMemoryPreview = document.getElementById('photo-memory-preview');
+    elements.photoMemoryPreviewImg = document.getElementById('photo-memory-preview-img');
+    elements.removePhotoMemoryBtn = document.getElementById('remove-photo-memory-btn');
+    elements.photoMemoryStatus = document.getElementById('photo-memory-status');
 }
 
 function bindEvents() {
+    elements.calendarToday.addEventListener('click', goToToday);
     elements.prevMonth.addEventListener('click', () => changeMonth(-1));
     elements.nextMonth.addEventListener('click', () => changeMonth(1));
     elements.addGoalForm.addEventListener('submit', addGoal);
     elements.addMemoryForm.addEventListener('submit', addMemory);
+    elements.addPhotoMemoryForm.addEventListener('submit', addPhotoMemory);
     elements.tabText.addEventListener('click', () => elements.memoryInput.focus());
-    elements.tabPhoto.addEventListener('click', () => elements.memoryImageFile.click());
     elements.tabMood.addEventListener('click', toggleMoodPicker);
-    elements.memoryImageFile.addEventListener('change', handlePhotoSelection);
-    elements.removeImageBtn.addEventListener('click', clearPhotoSelection);
+    elements.photoMemoryUpload.addEventListener('click', () => elements.photoMemoryFile.click());
+    elements.photoMemoryFile.addEventListener('change', handleMemoryPhotoSelection);
+    elements.removePhotoMemoryBtn.addEventListener('click', clearMemoryPhotoSelection);
 
     elements.moodPicker.querySelectorAll('.mood-btn').forEach((button) => {
         button.addEventListener('click', () => selectMood(button.dataset.mood));
@@ -87,6 +94,49 @@ function bindEvents() {
             elements.moodPicker.classList.add('hidden');
         }
     });
+}
+
+async function loadRemoteData() {
+    if (!supabaseClient) return;
+
+    await Promise.all([loadRemoteGoals(), loadRemoteMemories()]);
+    renderAll();
+}
+
+async function loadRemoteGoals() {
+    const { data, error } = await supabaseClient
+        .from('goals')
+        .select('id,title,target_date,is_completed')
+        .order('created_at', { ascending: true });
+
+    if (error) {
+        console.warn('Could not load goals from Supabase:', error.message);
+        return;
+    }
+
+    state.goalsByDate = groupRemoteGoals(data || []);
+    saveState(STORAGE_KEYS.goalsByDate, state.goalsByDate);
+}
+
+async function loadRemoteMemories() {
+    const { data, error } = await supabaseClient
+        .from('memories')
+        .select('id,content,target_date,created_at')
+        .order('created_at', { ascending: false });
+
+    if (error) {
+        console.warn('Could not load memories from Supabase:', error.message);
+        return;
+    }
+
+    state.memories = (data || []).map((memory) => ({
+        id: memory.id,
+        date: memory.target_date,
+        text: memory.content,
+        mood: '',
+        image: ''
+    }));
+    saveState(STORAGE_KEYS.memories, state.memories);
 }
 
 function renderAll() {
@@ -103,8 +153,14 @@ function changeMonth(offset) {
     refreshIcons();
 }
 
+function goToToday() {
+    selectedDate = new Date(today);
+    calendarMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    renderAll();
+}
+
 function renderCalendar() {
-    elements.currentMonthYear.textContent = MONTH_FORMATTER.format(calendarMonth);
+    elements.calendarTitle.textContent = MONTH_FORMATTER.format(calendarMonth);
     elements.calendarDays.replaceChildren();
 
     const year = calendarMonth.getFullYear();
@@ -112,7 +168,7 @@ function renderCalendar() {
     const firstDay = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     const memoryDates = new Set(state.memories.map((memory) => memory.date));
-    const progressDates = new Set(state.goals.some((goal) => goal.done) ? [toDateKey(selectedDate)] : []);
+    const goalDates = new Set(Object.keys(state.goalsByDate).filter((dateKey) => state.goalsByDate[dateKey]?.length));
 
     for (let index = 0; index < firstDay; index += 1) {
         const empty = document.createElement('span');
@@ -129,14 +185,18 @@ function renderCalendar() {
         button.textContent = day;
         button.setAttribute('aria-label', MEMORY_FORMATTER.format(date));
 
-        if (key === toDateKey(selectedDate)) button.classList.add('selected');
+        if (isSameDay(date, today)) button.classList.add('today');
+        if (isSameDay(date, selectedDate)) button.classList.add('selected');
         if (memoryDates.has(key)) button.classList.add('has-memory');
-        if (progressDates.has(key)) button.classList.add('has-progress');
+        if (goalDates.has(key)) button.classList.add('has-goals');
 
         button.addEventListener('click', () => {
             selectedDate = date;
-            calendarMonth = new Date(date.getFullYear(), date.getMonth(), 1);
-            renderAll();
+            renderDateLabels();
+            renderGoals();
+            renderMemories();
+            renderCalendar();
+            refreshIcons();
         });
 
         elements.calendarDays.appendChild(button);
@@ -144,15 +204,29 @@ function renderCalendar() {
 }
 
 function renderDateLabels() {
-    const headerDate = HEADER_FORMATTER.format(selectedDate).replace(',', ',');
-    elements.selectedDateDisplay.textContent = `Today, ${headerDate}`;
-    elements.scrapbookDate.textContent = isReferenceDate(selectedDate) ? 'Today' : MEMORY_FORMATTER.format(selectedDate);
+    if (isSameDay(selectedDate, today)) {
+        const headerDate = HEADER_FORMATTER.format(today).replace(',', ',');
+        elements.selectedDateDisplay.textContent = `Today, ${headerDate}`;
+        elements.scrapbookDate.textContent = 'Today';
+        return;
+    }
+
+    elements.selectedDateDisplay.textContent = MEMORY_FORMATTER.format(selectedDate);
+    elements.scrapbookDate.textContent = MEMORY_FORMATTER.format(selectedDate);
 }
 
 function renderGoals() {
     elements.goalsList.replaceChildren();
+    const goalsForDate = getGoalsForSelectedDate();
 
-    state.goals.forEach((goal) => {
+    if (!goalsForDate.length) {
+        const empty = document.createElement('div');
+        empty.className = 'empty-state goal-empty-state';
+        empty.textContent = 'No focus items saved for this date yet.';
+        elements.goalsList.appendChild(empty);
+    }
+
+    goalsForDate.forEach((goal) => {
         const item = document.createElement('article');
         item.className = `goal-item${goal.done ? ' done' : ''}`;
 
@@ -166,64 +240,199 @@ function renderGoals() {
         const text = document.createElement('span');
         text.className = 'goal-text';
         text.textContent = goal.text;
+        text.contentEditable = 'true';
+        text.spellcheck = false;
+        text.setAttribute('role', 'textbox');
+        text.setAttribute('aria-label', `Edit focus item: ${goal.text}`);
+        text.addEventListener('blur', () => updateGoalText(goal.id, text.textContent));
+        text.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                text.blur();
+            }
+        });
 
-        item.append(checkbox, text);
+        const deleteButton = document.createElement('button');
+        deleteButton.type = 'button';
+        deleteButton.className = 'goal-delete';
+        deleteButton.setAttribute('aria-label', `Delete focus item: ${goal.text}`);
+        deleteButton.innerHTML = '<i data-lucide="x"></i>';
+        deleteButton.addEventListener('click', () => deleteGoal(goal.id));
+
+        item.append(checkbox, text, deleteButton);
         elements.goalsList.appendChild(item);
     });
 
-    const done = state.goals.filter((goal) => goal.done).length;
-    const total = state.goals.length;
-    const percentage = total ? Math.round((done / total) * 100) : 0;
-    elements.progressText.textContent = `${done}/${total} Goals`;
-    elements.progressBarFill.style.width = `${percentage}%`;
-    saveState(STORAGE_KEYS.goals, state.goals);
+    saveGoalsByDate();
     renderCalendar();
     refreshIcons();
 }
 
-function addGoal(event) {
+async function addGoal(event) {
     event.preventDefault();
     const text = elements.newGoalInput.value.trim();
     if (!text) return;
 
-    state.goals.push({ id: createId(), text, done: false });
+    const dateKey = getSelectedDateKey();
+    const goal = { id: createId(), text, done: false };
+    getGoalsForDate(dateKey).push(goal);
     elements.newGoalInput.value = '';
+    saveGoalsByDate();
     renderGoals();
+
+    if (supabaseClient) {
+        const { data, error } = await supabaseClient
+            .from('goals')
+            .insert({ title: text, target_date: dateKey, is_completed: false })
+            .select('id')
+            .single();
+
+        if (error) {
+            console.warn('Could not save goal to Supabase:', error.message);
+            return;
+        }
+
+        goal.id = data.id;
+        saveGoalsByDate();
+        renderGoals();
+    }
 }
 
-function toggleGoal(id) {
-    const goal = state.goals.find((item) => item.id === id);
+async function toggleGoal(id) {
+    const goal = getGoalsForSelectedDate().find((item) => item.id === id);
     if (!goal) return;
     goal.done = !goal.done;
+    saveGoalsByDate();
     renderGoals();
+
+    if (supabaseClient) {
+        const { error } = await supabaseClient
+            .from('goals')
+            .update({ is_completed: goal.done })
+            .eq('id', id);
+
+        if (error) console.warn('Could not update goal in Supabase:', error.message);
+    }
 }
 
-function addMemory(event) {
+async function deleteGoal(id) {
+    const dateKey = getSelectedDateKey();
+    state.goalsByDate[dateKey] = getGoalsForDate(dateKey).filter((item) => item.id !== id);
+    saveGoalsByDate();
+    renderGoals();
+
+    if (supabaseClient) {
+        const { error } = await supabaseClient.from('goals').delete().eq('id', id);
+        if (error) console.warn('Could not delete goal from Supabase:', error.message);
+    }
+}
+
+async function updateGoalText(id, value) {
+    const goal = getGoalsForSelectedDate().find((item) => item.id === id);
+    if (!goal) return;
+
+    const nextText = value.trim();
+    if (!nextText) {
+        renderGoals();
+        return;
+    }
+
+    goal.text = nextText;
+    saveGoalsByDate();
+
+    if (supabaseClient) {
+        const { error } = await supabaseClient
+            .from('goals')
+            .update({ title: nextText })
+            .eq('id', id);
+
+        if (error) console.warn('Could not update goal text in Supabase:', error.message);
+    }
+}
+
+async function addMemory(event) {
     event.preventDefault();
     const text = elements.memoryInput.value.trim();
-    if (!text && !selectedPhotoData) return;
+    if (!text) return;
 
-    state.memories.unshift({
+    const dateKey = getSelectedDateKey();
+    const memory = {
         id: createId(),
-        date: toDateKey(selectedDate),
+        date: dateKey,
         text,
-        mood: elements.memoryMood.value,
-        image: selectedPhotoData
-    });
+        mood: elements.memoryMood.value
+    };
 
+    state.memories.unshift(memory);
     elements.memoryInput.value = '';
     selectMood('');
-    clearPhotoSelection();
     saveState(STORAGE_KEYS.memories, state.memories);
     renderMemories();
     renderCalendar();
     refreshIcons();
+
+    if (supabaseClient && text) {
+        const { data, error } = await supabaseClient
+            .from('memories')
+            .insert({ content: text, target_date: dateKey })
+            .select('id')
+            .single();
+
+        if (error) {
+            console.warn('Could not save memory to Supabase:', error.message);
+            return;
+        }
+
+        memory.id = data.id;
+        saveState(STORAGE_KEYS.memories, state.memories);
+    }
+}
+
+async function addPhotoMemory(event) {
+    event.preventDefault();
+    const text = elements.photoMemoryInput.value.trim();
+    if (!text && !selectedMemoryPhotoData) return;
+
+    const dateKey = getSelectedDateKey();
+    const memory = {
+        id: createId(),
+        date: dateKey,
+        text,
+        mood: '',
+        image: selectedMemoryPhotoData
+    };
+
+    state.memories.unshift(memory);
+    elements.photoMemoryInput.value = '';
+    clearMemoryPhotoSelection();
+    saveState(STORAGE_KEYS.memories, state.memories);
+    renderMemories();
+    renderCalendar();
+    refreshIcons();
+
+    if (supabaseClient && text) {
+        const { data, error } = await supabaseClient
+            .from('memories')
+            .insert({ content: text, target_date: dateKey })
+            .select('id')
+            .single();
+
+        if (error) {
+            console.warn('Could not save memory to Supabase:', error.message);
+            return;
+        }
+
+        memory.id = data.id;
+        saveState(STORAGE_KEYS.memories, state.memories);
+    }
 }
 
 function renderMemories() {
     elements.memoriesList.replaceChildren();
-    const selectedKey = toDateKey(selectedDate);
+    const selectedKey = getSelectedDateKey();
     const memoriesForDate = state.memories.filter((memory) => memory.date === selectedKey);
+    const entryLabel = memoriesForDate.length === 1 ? 'entry' : 'entries';
+    elements.memoryCountBadge.textContent = `${memoriesForDate.length} ${entryLabel}`;
 
     if (!memoriesForDate.length) {
         const empty = document.createElement('div');
@@ -274,28 +483,28 @@ function renderMemories() {
     });
 }
 
-function handlePhotoSelection() {
-    const file = elements.memoryImageFile.files?.[0];
+function handleMemoryPhotoSelection() {
+    const file = elements.photoMemoryFile.files?.[0];
     if (!file) return;
 
     const reader = new FileReader();
     reader.addEventListener('load', () => {
-        selectedPhotoData = String(reader.result || '');
-        elements.imagePreviewImg.src = selectedPhotoData;
-        elements.imagePreviewArea.classList.remove('hidden');
-        elements.uploadStatusText.textContent = 'Photo added';
-        elements.tabPhoto.classList.add('active');
+        selectedMemoryPhotoData = String(reader.result || '');
+        elements.photoMemoryPreviewImg.src = selectedMemoryPhotoData;
+        elements.photoMemoryPreview.classList.remove('hidden');
+        elements.photoMemoryStatus.textContent = 'Photo added';
+        elements.photoMemoryUpload.classList.add('active');
     });
     reader.readAsDataURL(file);
 }
 
-function clearPhotoSelection() {
-    selectedPhotoData = '';
-    elements.memoryImageFile.value = '';
-    elements.imagePreviewImg.removeAttribute('src');
-    elements.imagePreviewArea.classList.add('hidden');
-    elements.uploadStatusText.textContent = 'Photo';
-    elements.tabPhoto.classList.remove('active');
+function clearMemoryPhotoSelection() {
+    selectedMemoryPhotoData = '';
+    elements.photoMemoryFile.value = '';
+    elements.photoMemoryPreviewImg.removeAttribute('src');
+    elements.photoMemoryPreview.classList.add('hidden');
+    elements.photoMemoryStatus.textContent = 'Photo';
+    elements.photoMemoryUpload.classList.remove('active');
 }
 
 function toggleMoodPicker() {
@@ -307,6 +516,55 @@ function selectMood(mood) {
     elements.moodStatusText.textContent = mood || 'Mood';
     elements.tabMood.classList.toggle('active', Boolean(mood));
     elements.moodPicker.classList.add('hidden');
+}
+
+function getSelectedDateKey() {
+    return toDateKey(selectedDate);
+}
+
+function getGoalsForSelectedDate() {
+    return getGoalsForDate(getSelectedDateKey());
+}
+
+function getGoalsForDate(dateKey) {
+    if (!state.goalsByDate[dateKey]) state.goalsByDate[dateKey] = [];
+    return state.goalsByDate[dateKey];
+}
+
+function saveGoalsByDate() {
+    Object.keys(state.goalsByDate).forEach((dateKey) => {
+        if (!state.goalsByDate[dateKey].length) delete state.goalsByDate[dateKey];
+    });
+    saveState(STORAGE_KEYS.goalsByDate, state.goalsByDate);
+}
+
+function loadGoalsByDate() {
+    const stored = loadState(STORAGE_KEYS.goalsByDate, null);
+    if (stored && typeof stored === 'object' && !Array.isArray(stored)) return stored;
+
+    const legacyGoals = loadState(STORAGE_KEYS.legacyGoals, null);
+    return {
+        [toDateKey(today)]: Array.isArray(legacyGoals) && legacyGoals.length ? legacyGoals : DEFAULT_TODAY_GOALS
+    };
+}
+
+function groupRemoteGoals(goals) {
+    return goals.reduce((grouped, goal) => {
+        const dateKey = goal.target_date;
+        if (!grouped[dateKey]) grouped[dateKey] = [];
+        grouped[dateKey].push({
+            id: goal.id,
+            text: goal.title,
+            done: goal.is_completed
+        });
+        return grouped;
+    }, {});
+}
+
+function createSupabaseClient() {
+    const hasConfig = SUPABASE_CONFIG.url && SUPABASE_CONFIG.anonKey;
+    if (!hasConfig || !window.supabase?.createClient) return null;
+    return window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
 }
 
 function refreshIcons() {
@@ -335,13 +593,17 @@ function toDateKey(date) {
     return `${year}-${month}-${day}`;
 }
 
+function startOfDay(date) {
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+}
+
+function isSameDay(firstDate, secondDate) {
+    return toDateKey(firstDate) === toDateKey(secondDate);
+}
+
 function fromDateKey(key) {
     const [year, month, day] = key.split('-').map(Number);
     return new Date(year, month - 1, day);
-}
-
-function isReferenceDate(date) {
-    return toDateKey(date) === '2026-06-06';
 }
 
 function createId() {
