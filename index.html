@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -13,188 +13,148 @@
 <body>
     <div class="app-shell">
         <aside class="sidebar" aria-label="Tracker sidebar">
-            <a class="brand" href="#today-panel" aria-label="Tracker home">
-                <span class="brand-mark">BS</span>
-            </a>
+            <div class="brand-wrap">
+                <a class="brand" href="#today-panel" aria-label="Tracker home">
+                    <span class="brand-mark">BS</span>
+                </a>
+                <span class="brand-name">Blue Sky&rsquo;s Space <i data-lucide="sprout"></i></span>
+            </div>
 
             <nav class="side-nav" aria-label="Sections">
                 <a class="side-nav-item active" href="#today-panel"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
                 <a class="side-nav-item" href="#today-panel"><i data-lucide="target"></i><span>Goals</span></a>
-                <a class="side-nav-item" href="#today-panel"><i data-lucide="calendar-days"></i><span>Calendar</span></a>
-                <a class="side-nav-item" href="#journal-panel"><i data-lucide="notebook-tabs"></i><span>Memories</span></a>
+                <a class="side-nav-item" href="#calendar-panel"><i data-lucide="calendar-days"></i><span>Calendar</span></a>
+                <a class="side-nav-item" href="#memory-panel"><i data-lucide="notebook-tabs"></i><span>Memories</span></a>
+                <a class="side-nav-item" href="#profile-panel"><i data-lucide="user-round"></i><span>Profile</span></a>
             </nav>
 
-            <div class="sidebar-footer">
-                <div class="connection-status" aria-label="Connection status">
-                    <div class="connection-title"><i data-lucide="settings"></i><span>Connected</span></div>
-                    <span>All changes saved</span>
-                </div>
+            <a class="ai-sidebar-button" href="#journal-panel"><i data-lucide="sparkles"></i><span>Ai tracker</span></a>
 
+            <div class="sidebar-footer" id="profile-panel">
+                <a class="side-nav-item settings-link" href="#profile-panel"><i data-lucide="settings"></i><span>Settings</span></a>
                 <div class="space-card" aria-label="Current space">
                     <span class="space-avatar">BS</span>
                     <div>
                         <strong>Blue Sky</strong>
-                        <small>Keep going!</small>
+                        <small>Keep growing</small>
                     </div>
                 </div>
             </div>
         </aside>
 
         <main class="main-area">
-            <header class="top-card">
-                <h1 id="selected-date-display">Today, Saturday, Jun 6</h1>
+            <header class="top-banner" aria-label="Daily overview">
+                <div class="greeting-card">
+                    <h1>Good morning, Blue Sky <span aria-hidden="true">☼</span></h1>
+                    <p>Every day is a fresh start.</p>
+                </div>
+
+                <div class="mood-energy-card">
+                    <span class="mood-emojis" aria-hidden="true">😊 ⚡ 🌿</span>
+                    <p>Add a set your mood/ energy today contains emoji, to decide your mood</p>
+                </div>
+
+                <div class="date-pill">
+                    <i data-lucide="calendar-days"></i>
+                    <span id="selected-date-display">Today, Saturday, Jun 6</span>
+                    <i data-lucide="chevron-down"></i>
+                </div>
             </header>
 
-            <div class="content-grid">
-                <div class="left-stack">
-                    <section class="goals-card panel" id="today-panel" aria-labelledby="goals-title">
-                        <h2 id="goals-title"><i data-lucide="target"></i>Today&rsquo;s focus</h2>
-                        <div id="goals-list" class="goals-list"></div>
-                        <form id="add-goal-form" class="add-goal-form">
-                            <label class="sr-only" for="new-goal-input">Add a new focus item</label>
-                            <input id="new-goal-input" type="text" placeholder="Add a new focus item..." autocomplete="off" required>
-                            <button type="submit" aria-label="Add focus item"><i data-lucide="plus"></i></button>
-                        </form>
-                    </section>
+            <div class="dashboard-grid">
+                <section class="goals-card panel dashboard-module" id="today-panel" aria-labelledby="goals-title">
+                    <h2 id="goals-title"><i data-lucide="target"></i>Today&rsquo;s Focus</h2>
+                    <div id="goals-list" class="goals-list"></div>
+                    <form id="add-goal-form" class="add-goal-form">
+                        <label class="sr-only" for="new-goal-input">Add a new focus item</label>
+                        <input id="new-goal-input" type="text" placeholder="Add a new focus item..." autocomplete="off" required>
+                        <button type="submit" aria-label="Add focus item"><i data-lucide="plus"></i></button>
+                    </form>
+                </section>
 
-                    <section class="calendar-card panel" aria-labelledby="calendar-title">
-                        <div class="calendar-header">
-                            <div>
-                                <span>Calendar</span>
-                                <h2 id="calendar-title">June 2026</h2>
-                            </div>
-                            <div class="calendar-controls">
-                                <button id="calendar-today" type="button">Today</button>
-                                <button id="prev-month" type="button" aria-label="Previous month"><i data-lucide="chevron-left"></i></button>
-                                <button id="next-month" type="button" aria-label="Next month"><i data-lucide="chevron-right"></i></button>
-                            </div>
-                        </div>
-                        <div class="calendar-weekdays" aria-hidden="true">
-                            <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
-                        </div>
-                        <div id="calendar-days" class="calendar-days" aria-label="Calendar days"></div>
-                    </section>
-                </div>
+                <section class="journal-card panel dashboard-module" id="journal-panel" aria-labelledby="journal-title">
+                    <div class="journal-header">
+                        <h2 id="journal-title"><i data-lucide="pencil-line"></i>Journal</h2>
+                        <span id="scrapbook-date">Today</span>
+                    </div>
 
-                <div class="journal-stack">
-                    <section class="journal-card panel" id="journal-panel" aria-labelledby="journal-title">
-                        <div class="journal-header">
-                            <h2 id="journal-title"><i data-lucide="pencil-line"></i>Note</h2>
-                            <span id="scrapbook-date">Today</span>
+                    <form id="add-memory-form" class="journal-composer">
+                        <label class="sr-only" for="new-memory-input">Journal entry</label>
+                        <textarea id="new-memory-input" placeholder="What's on your mind today?" required></textarea>
+                        <input id="memory-mood" type="hidden" value="">
+
+                        <div id="mood-picker-popup" class="mood-picker hidden" aria-label="Choose mood">
+                            <button type="button" class="mood-btn" data-mood="&#128522;">&#128522; Happy</button>
+                            <button type="button" class="mood-btn" data-mood="&#129392;">&#129392; Loved</button>
+                            <button type="button" class="mood-btn" data-mood="&#129496;">&#129496; Calm</button>
+                            <button type="button" class="mood-btn" data-mood="&#127881;">&#127881; Excited</button>
                         </div>
 
-                        <form id="add-memory-form" class="journal-composer">
-                            <label class="sr-only" for="new-memory-input">Note entry</label>
-                            <textarea id="new-memory-input" placeholder="What's on your mind today?" required></textarea>
-                            <input id="memory-mood" type="hidden" value="">
-
-                            <div id="mood-picker-popup" class="mood-picker hidden" aria-label="Choose mood">
-                                <button type="button" class="mood-btn" data-mood="&#128522;">&#128522; Happy</button>
-                                <button type="button" class="mood-btn" data-mood="&#129392;">&#129392; Loved</button>
-                                <button type="button" class="mood-btn" data-mood="&#129496;">&#129496; Calm</button>
-                                <button type="button" class="mood-btn" data-mood="&#127881;">&#127881; Excited</button>
+                        <div class="composer-footer">
+                            <div class="composer-tabs">
+                                <button id="tab-text" class="composer-tab active" type="button"><span class="type-mark">Aa</span><span>Text</span></button>
+                                <button id="tab-mood" class="composer-tab" type="button"><i data-lucide="smile"></i><span id="mood-status-text">Mood</span></button>
                             </div>
+                            <button class="save-entry-btn" type="submit" aria-label="Save Entry"><i data-lucide="send"></i></button>
+                        </div>
+                    </form>
+                </section>
 
-                            <div class="composer-footer">
-                                <div class="composer-tabs">
-                                    <button id="tab-text" class="composer-tab active" type="button"><span class="type-mark">Aa</span><span>Text</span></button>
-                                    <button id="tab-mood" class="composer-tab" type="button"><i data-lucide="smile"></i><span id="mood-status-text">Mood</span></button>
-                                </div>
-                                <button class="save-entry-btn" type="submit" aria-label="Save Entry"><i data-lucide="send"></i></button>
-                            </div>
-                        </form>
-                    </section>
+                <section class="calendar-card panel dashboard-module" id="calendar-panel" aria-labelledby="calendar-title">
+                    <div class="calendar-header">
+                        <div>
+                            <span><i data-lucide="calendar-days"></i>Calendar</span>
+                            <h2 id="calendar-title">June 2026</h2>
+                        </div>
+                        <div class="calendar-controls">
+                            <button id="calendar-today" type="button">Today</button>
+                            <button id="prev-month" type="button" aria-label="Previous month"><i data-lucide="chevron-left"></i></button>
+                            <button id="next-month" type="button" aria-label="Next month"><i data-lucide="chevron-right"></i></button>
+                        </div>
+                    </div>
+                    <div class="calendar-weekdays" aria-hidden="true">
+                        <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+                    </div>
+                    <div id="calendar-days" class="calendar-days" aria-label="Calendar days"></div>
+                    <p class="calendar-legend"><span></span> Days with entries</p>
+                </section>
 
-                    <section class="memory-add-card panel" id="memory-panel" aria-labelledby="memory-title">
-                        <div class="journal-header">
-                            <h2 id="memory-title"><i data-lucide="image-plus"></i>Memories</h2>
-                            <span>Add photo</span>
+                <section class="memories-module panel dashboard-module" id="memory-panel" aria-labelledby="memory-title">
+                    <div class="journal-header">
+                        <h2 id="memory-title"><i data-lucide="image-plus"></i>Memories</h2>
+                        <span id="memory-count-badge" class="memory-count-badge">0 entries</span>
+                    </div>
+
+                    <form id="add-photo-memory-form" class="memory-composer">
+                        <label class="sr-only" for="new-photo-memory-input">Memory caption</label>
+                        <textarea id="new-photo-memory-input" placeholder="Add a memory from this day..."></textarea>
+                        <input id="photo-memory-file" type="file" accept="image/*" hidden>
+
+                        <div id="photo-memory-preview" class="photo-memory-preview hidden">
+                            <img id="photo-memory-preview-img" alt="Memory photo preview">
+                            <button id="remove-photo-memory-btn" type="button" aria-label="Remove memory photo"><i data-lucide="x"></i></button>
                         </div>
 
-                        <form id="add-photo-memory-form" class="memory-composer">
-                            <label class="sr-only" for="new-photo-memory-input">Memory caption</label>
-                            <textarea id="new-photo-memory-input" placeholder="Add a memory from this day..."></textarea>
-                            <input id="photo-memory-file" type="file" accept="image/*" hidden>
+                        <div class="composer-footer">
+                            <button id="photo-memory-upload" class="composer-tab photo-upload-tab" type="button"><i data-lucide="image"></i><span id="photo-memory-status">Photo</span></button>
+                            <button class="save-entry-btn" type="submit" aria-label="Save Memory"><i data-lucide="send"></i></button>
+                        </div>
+                    </form>
 
-                            <div id="photo-memory-preview" class="photo-memory-preview hidden">
-                                <img id="photo-memory-preview-img" alt="Memory photo preview">
-                                <button id="remove-photo-memory-btn" type="button" aria-label="Remove memory photo"><i data-lucide="x"></i></button>
-                            </div>
-
-                            <div class="composer-footer">
-                                <button id="photo-memory-upload" class="composer-tab photo-upload-tab" type="button"><i data-lucide="image"></i><span id="photo-memory-status">Photo</span></button>
-                                <button class="save-entry-btn" type="submit" aria-label="Save Memory"><i data-lucide="send"></i></button>
-                            </div>
-                        </form>
-                    </section>
-
-                    <section class="recent-memories panel" id="recent-memories" aria-labelledby="recent-title">
+                    <div class="recent-memories-inline" aria-labelledby="recent-title">
                         <div class="recent-header">
                             <h3 id="recent-title">Recent Memories</h3>
-                            <span id="memory-count-badge" class="memory-count-badge">0 entries</span>
                         </div>
                         <div id="memories-list" class="memories-list"></div>
-                    </section>
-
-                    <section class="ai-tracker-card panel" aria-labelledby="ai-tracker-title">
-                        <div class="ai-tracker-main">
-                            <div class="ai-tracker-header">
-                                <div>
-                                    <span class="eyebrow"><i data-lucide="sparkles"></i>AI Tracker</span>
-                                    <h2 id="ai-tracker-title">Ultimate AI Goal Tracker</h2>
-                                </div>
-                                <span class="ai-status-pill">Preview</span>
-                            </div>
-
-                            <div class="ai-progress-row">
-                                <span>Progress toward today&rsquo;s goal</span>
-                                <strong>28%</strong>
-                            </div>
-                            <div class="ai-progress-track" aria-hidden="true">
-                                <span style="width: 28%"></span>
-                            </div>
-
-                            <div class="ai-insight-card">
-                                <i data-lucide="quote"></i>
-                                <p>Progress is a journey, not a race. You&rsquo;re building your future one focused action at a time.</p>
-                            </div>
-
-                            <div class="ai-goal-path" aria-hidden="true">
-                                <span class="path-dot start"></span>
-                                <span class="path-line"></span>
-                                <span class="path-dot current"></span>
-                                <span class="path-line faded"></span>
-                                <span class="path-flag"><i data-lucide="flag"></i></span>
-                            </div>
-
-                            <div class="ai-goal-meta">
-                                <span>Main Goal</span>
-                                <strong>Track my day and stay consistent</strong>
-                                <small>Static UI for now · AI logic later</small>
-                            </div>
-                        </div>
-
-                        <aside class="ai-coach-panel" aria-label="AI coach preview">
-                            <div class="ai-coach-header">
-                                <i data-lucide="bot"></i>
-                                <h3>AI Coach</h3>
-                            </div>
-                            <div class="ai-message">
-                                Welcome back, Blue Sky! I&rsquo;ll review your goals, notes, and memories to show what moved you closer today.
-                            </div>
-                            <div class="ai-prompt-grid">
-                                <button type="button">Review my progress</button>
-                                <button type="button">Motivate me</button>
-                                <button type="button">Plan my next step</button>
-                            </div>
-                            <div class="ai-chat-input">
-                                <span>Ask your AI tracker...</span>
-                                <button type="button" aria-label="Send AI message"><i data-lucide="send"></i></button>
-                            </div>
-                        </aside>
-                    </section>
-                </div>
+                    </div>
+                </section>
             </div>
+
+            <footer class="kind-footer" aria-label="Kind reminder">
+                <span class="floral-doodle" aria-hidden="true">☘︎</span>
+                <span>Be kind to yourself.</span>
+                <i data-lucide="heart"></i>
+            </footer>
         </main>
     </div>
 
