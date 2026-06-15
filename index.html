@@ -45,26 +45,34 @@
             <header class="top-banner" aria-label="Daily overview">
                 <div class="greeting-card">
                     <h1>Good morning, Blue Sky <span aria-hidden="true">☼</span></h1>
-                    <p>Every day is a fresh start.</p>
+                    <p>Friday, June 12, 2026</p>
                 </div>
 
                 <section class="mood-energy-card" aria-labelledby="daily-mood-title">
                     <div class="mood-copy">
-                        <span id="daily-mood-title">Set your mood for today</span>
-                        <p id="daily-mood-status">Choose one emoji to check in.</p>
+                        <span id="daily-mood-title">Mood &amp; Energy</span>
+                        <p id="daily-mood-status">How are you feeling?</p>
                     </div>
                     <div class="daily-mood-options" role="group" aria-label="Choose your mood for today">
+                        <button type="button" class="daily-mood-btn" data-daily-mood="great" data-mood-label="Great" aria-pressed="false">
+                            <span aria-hidden="true">&#9787;</span>
+                            <small>Great</small>
+                        </button>
+                        <button type="button" class="daily-mood-btn" data-daily-mood="good" data-mood-label="Good" aria-pressed="false">
+                            <span aria-hidden="true">&#9786;</span>
+                            <small>Good</small>
+                        </button>
+                        <button type="button" class="daily-mood-btn" data-daily-mood="okay" data-mood-label="Okay" aria-pressed="false">
+                            <span aria-hidden="true">&#9786;</span>
+                            <small>Okay</small>
+                        </button>
+                        <button type="button" class="daily-mood-btn" data-daily-mood="low" data-mood-label="Low" aria-pressed="false">
+                            <span aria-hidden="true">&#9785;</span>
+                            <small>Low</small>
+                        </button>
                         <button type="button" class="daily-mood-btn" data-daily-mood="sad" data-mood-label="Sad" aria-pressed="false">
-                            <span aria-hidden="true">&#128542;</span>
+                            <span aria-hidden="true">&#9785;</span>
                             <small>Sad</small>
-                        </button>
-                        <button type="button" class="daily-mood-btn" data-daily-mood="happy" data-mood-label="Happy" aria-pressed="false">
-                            <span aria-hidden="true">&#128522;</span>
-                            <small>Happy</small>
-                        </button>
-                        <button type="button" class="daily-mood-btn" data-daily-mood="angry" data-mood-label="Angry" aria-pressed="false">
-                            <span aria-hidden="true">&#128545;</span>
-                            <small>Angry</small>
                         </button>
                     </div>
                 </section>
@@ -167,13 +175,39 @@
                         <div id="memories-list" class="memories-list"></div>
                     </div>
                 </section>
+
+                <section class="quick-thoughts-card panel dashboard-module" aria-labelledby="quick-thoughts-title">
+                    <div class="quick-thoughts-header">
+                        <h2 id="quick-thoughts-title"><i data-lucide="sparkles"></i>Quick Thoughts</h2>
+                    </div>
+                    <div class="quick-thoughts-list">
+                        <label class="quick-thought-item">
+                            <span class="quick-thought-copy">
+                                <strong>Today I'm grateful for...</strong>
+                                <input type="text" placeholder="Write something...">
+                            </span>
+                            <i data-lucide="heart"></i>
+                        </label>
+                        <label class="quick-thought-item">
+                            <span class="quick-thought-copy">
+                                <strong>Win of the day</strong>
+                                <input type="text" placeholder="What went well today?">
+                            </span>
+                            <i data-lucide="sparkles"></i>
+                        </label>
+                        <label class="quick-thought-item">
+                            <span class="quick-thought-copy">
+                                <strong>Lesson learned</strong>
+                                <input type="text" placeholder="What did I learn today?">
+                            </span>
+                            <i data-lucide="lightbulb"></i>
+                        </label>
+                    </div>
+                    <span class="quick-thoughts-doodle" aria-hidden="true">&#9752;</span>
+                </section>
             </div>
 
-            <footer class="kind-footer" aria-label="Kind reminder">
-                <span class="floral-doodle" aria-hidden="true">☘︎</span>
-                <span>Be kind to yourself.</span>
-                <i data-lucide="heart"></i>
-            </footer>
+
         </main>
     </div>
 

@@ -554,11 +554,8 @@ function selectDailyMood(mood) {
 
 function renderDailyMood() {
     const selectedButton = Array.from(elements.dailyMoodButtons).find((button) => button.dataset.dailyMood === state.dailyMood);
-    const selectedLabel = selectedButton?.dataset.moodLabel || '';
 
-    elements.dailyMoodStatus.textContent = selectedLabel
-        ? `Today feels ${selectedLabel.toLowerCase()}.`
-        : 'Choose one emoji to check in.';
+    elements.dailyMoodStatus.textContent = 'How are you feeling?';
 
     elements.dailyMoodButtons.forEach((button) => {
         const isSelected = button === selectedButton;

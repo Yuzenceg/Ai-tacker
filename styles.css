@@ -29,13 +29,7 @@ body {
     min-height: 100vh;
     color: var(--ink);
     font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    background:
-        linear-gradient(rgba(44, 44, 44, 0.035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(44, 44, 44, 0.035) 1px, transparent 1px),
-        radial-gradient(circle at 20% 8%, rgba(47, 111, 179, 0.08), transparent 28%),
-        radial-gradient(circle at 78% 10%, rgba(197, 139, 71, 0.08), transparent 30%),
-        #fbfaf7;
-    background-size: 32px 32px, 32px 32px, auto, auto, auto;
+    background: #FAF6F2;
 }
 
 button,
@@ -1707,9 +1701,13 @@ svg,
 .top-banner {
     min-height: 86px;
     display: grid;
-    grid-template-columns: minmax(290px, 1.1fr) minmax(280px, 0.9fr) max-content;
+    grid-template-columns: minmax(280px, 1fr) max-content;
     align-items: center;
     gap: 24px;
+}
+
+.greeting-card {
+    display: none;
 }
 
 .greeting-card h1 {
@@ -1873,6 +1871,10 @@ svg,
 .memories-module.dashboard-module {
     width: auto;
     padding: 24px 26px;
+}
+
+.memories-module.dashboard-module {
+    background: #F8F2EB;
 }
 
 .goals-card h2 {
@@ -2159,6 +2161,236 @@ svg,
     font-weight: 300;
 }
 
+@media (min-width: 981px) {
+    .app-shell {
+        grid-template-columns: 164px minmax(0, 1fr);
+        gap: 18px;
+    }
+
+    .sidebar {
+        width: 164px;
+        padding: 24px 14px 18px;
+        gap: 24px;
+    }
+
+    .brand-wrap {
+        gap: 14px;
+    }
+
+    .brand-mark {
+        width: 32px;
+        height: 32px;
+        font-size: 11px;
+    }
+
+    .brand-name {
+        font-size: 16px;
+    }
+
+    .side-nav {
+        gap: 6px;
+    }
+
+    .side-nav-item {
+        height: 36px;
+        padding: 0 10px;
+        gap: 10px;
+        font-size: 13px;
+    }
+
+    .ai-sidebar-button {
+        min-height: 32px;
+        margin-top: -10px;
+        font-size: 11px;
+    }
+
+    .main-area {
+        padding: 22px 28px 18px 0;
+        gap: 16px;
+    }
+
+    .top-banner {
+        min-height: 64px;
+        gap: 16px;
+    }
+
+    .mood-energy-card {
+        min-height: 64px;
+        padding: 10px 14px;
+        border-radius: 18px;
+    }
+
+    .daily-mood-btn {
+        width: 48px;
+        min-height: 48px;
+        border-radius: 14px;
+    }
+
+    .date-pill {
+        min-height: 40px;
+        padding: 0 14px;
+        font-size: 12px;
+    }
+
+    .dashboard-grid {
+        grid-auto-rows: clamp(245px, calc((100vh - 200px) / 2), 300px);
+        gap: 16px;
+    }
+
+    .dashboard-module {
+        min-height: 0;
+        height: clamp(245px, calc((100vh - 200px) / 2), 300px);
+        border-radius: 22px;
+    }
+
+    .journal-card.dashboard-module {
+        overflow: visible;
+        position: relative;
+        z-index: 2;
+    }
+
+    .goals-card.dashboard-module,
+    .calendar-card.dashboard-module,
+    .journal-card.dashboard-module,
+    .memories-module.dashboard-module {
+        padding: 18px 20px;
+    }
+
+    .goals-header {
+        margin-bottom: 16px;
+    }
+
+    .goals-card .goals-list {
+        gap: 10px;
+    }
+
+    .goals-card .add-goal-form {
+        min-height: 40px;
+        margin-top: 14px;
+    }
+
+    .goals-card .add-goal-form input {
+        height: 40px;
+        font-size: 14px;
+    }
+
+    .journal-composer textarea {
+        min-height: 120px;
+    }
+
+    #journal-panel .journal-header h2 {
+        gap: 10px;
+        font-size: 18px;
+    }
+
+    #journal-panel .journal-header h2 svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    #scrapbook-date {
+        font-size: 15px;
+    }
+
+    #scrapbook-date::after {
+        font-size: 18px;
+    }
+
+    .journal-card.dashboard-module .journal-composer {
+        margin-top: 16px;
+        gap: 12px;
+        position: relative;
+    }
+
+    .mood-picker {
+        bottom: 46px;
+        z-index: 30;
+    }
+
+    #journal-panel .journal-composer textarea {
+        min-height: 104px;
+        padding: 16px;
+        font-size: 15px;
+    }
+
+    #journal-panel .composer-tabs {
+        gap: 14px;
+    }
+
+    #journal-panel .composer-tab {
+        width: 36px;
+        height: 36px;
+    }
+
+    #journal-panel .composer-tab svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    #journal-panel .type-mark {
+        font-size: 22px;
+    }
+
+    #journal-panel .save-entry-btn {
+        width: 64px;
+        height: 42px;
+        border-radius: 16px;
+        font-size: 15px;
+    }
+
+    .calendar-empty,
+    .calendar-day {
+        min-height: 24px;
+    }
+
+    #calendar-panel .calendar-weekdays {
+        margin-bottom: 8px;
+    }
+
+    #calendar-panel .calendar-days {
+        grid-auto-rows: minmax(20px, 1fr);
+    }
+
+    #calendar-panel .calendar-legend {
+        margin-top: 8px;
+        padding-top: 6px;
+    }
+
+    .calendar-header {
+        margin-bottom: 10px;
+    }
+
+    .calendar-header h2 {
+        margin-top: 8px;
+    }
+
+    .memory-composer textarea {
+        min-height: 42px;
+    }
+
+    .memories-module .memory-composer {
+        flex: 0 0 auto;
+    }
+
+    .recent-memories-inline {
+        margin-top: 8px;
+    }
+
+    .memory-card {
+        padding: 10px;
+    }
+
+    .memory-photo {
+        max-height: 86px;
+    }
+
+    .kind-footer {
+        min-height: 42px;
+        padding-bottom: 0;
+        font-size: 17px;
+    }
+}
+
 @media (max-width: 1180px) {
     .top-banner {
         grid-template-columns: 1fr;
@@ -2216,5 +2448,538 @@ svg,
 
     .kind-footer {
         justify-content: center;
+    }
+}
+
+/* Mood & Energy reference card */
+.mood-energy-card {
+    width: 300px;
+    min-height: 128px;
+    padding: 18px 18px 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+    color: #302c28;
+    background: rgba(255, 253, 249, 0.92);
+    border: 1px solid rgba(232, 224, 214, 0.9);
+    border-radius: 16px;
+    box-shadow: 0 12px 32px rgba(65, 55, 45, 0.06);
+}
+
+.mood-copy {
+    gap: 10px;
+}
+
+.mood-copy span {
+    font-size: 18px;
+    line-height: 1;
+    font-weight: 750;
+    letter-spacing: -0.02em;
+}
+
+.mood-energy-card p {
+    color: #7f7870;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.daily-mood-options {
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.daily-mood-btn {
+    position: relative;
+    width: 36px;
+    min-height: 42px;
+    padding: 0 0 9px;
+    color: #d99a45;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.daily-mood-btn span {
+    width: 31px;
+    height: 31px;
+    display: grid;
+    place-items: center;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+    font-size: 22px;
+    line-height: 1;
+}
+
+.daily-mood-btn small {
+    display: none;
+}
+
+.daily-mood-btn::after {
+    content: "";
+    position: absolute;
+    left: 1px;
+    right: 1px;
+    bottom: 0;
+    height: 3px;
+    background: transparent;
+    border-radius: 999px;
+}
+
+.daily-mood-btn:nth-child(1),
+.daily-mood-btn:nth-child(2) {
+    color: #78ad76;
+}
+
+.daily-mood-btn:nth-child(3) {
+    color: #d8a348;
+}
+
+.daily-mood-btn:nth-child(4),
+.daily-mood-btn:nth-child(5) {
+    color: #df765e;
+}
+
+.daily-mood-btn:hover,
+.daily-mood-btn:focus-visible {
+    transform: translateY(-1px);
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    outline: none;
+}
+
+.daily-mood-btn.active {
+    color: #78ad76;
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+}
+
+.daily-mood-btn.active::after {
+    background: currentColor;
+}
+
+@media (min-width: 981px) {
+    .top-banner {
+        grid-template-columns: max-content max-content;
+        justify-content: end;
+        align-items: start;
+    }
+
+    .mood-energy-card {
+        min-height: 128px;
+        padding: 18px 18px 14px;
+        border-radius: 16px;
+    }
+
+    .daily-mood-btn {
+        width: 36px;
+        min-height: 42px;
+        border-radius: 0;
+    }
+}
+
+/* Reference header placement, preserving dashboard modules */
+@media (min-width: 981px) {
+    .main-area {
+        min-height: 100vh;
+        padding: 20px 28px 18px 0;
+        display: grid;
+        grid-template-rows: 128px minmax(0, 1fr);
+        gap: 18px;
+    }
+
+    .top-banner {
+        min-height: 128px;
+        display: grid;
+        grid-template-columns: minmax(360px, 1fr) 360px;
+        grid-template-rows: 38px 80px;
+        align-items: start;
+        gap: 10px 24px;
+    }
+
+    .greeting-card {
+        display: grid;
+        grid-column: 1;
+        grid-row: 1 / span 2;
+        align-content: start;
+        gap: 12px;
+    }
+
+    .greeting-card h1 {
+        font-size: clamp(34px, 3.1vw, 46px);
+        line-height: 1;
+    }
+
+    .greeting-card p {
+        width: max-content;
+        margin: 0;
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        color: #8f857b;
+        font-family: "Inter", system-ui, sans-serif;
+        font-size: 12px;
+        font-weight: 650;
+        box-shadow: none;
+    }
+
+    .greeting-card p::before,
+    .greeting-card p::after {
+        content: "";
+        width: 7px;
+        height: 7px;
+        background: #d2a066;
+        border-radius: 50%;
+    }
+
+    .date-pill {
+        grid-column: 2;
+        grid-row: 1;
+        justify-self: end;
+        min-height: 38px;
+        padding: 0 16px;
+        font-size: 12px;
+        background: rgba(255, 253, 249, 0.9);
+        box-shadow: 0 10px 24px rgba(55, 58, 64, 0.06);
+    }
+
+    .mood-energy-card {
+        grid-column: 2;
+        grid-row: 2;
+        justify-self: stretch;
+        width: 100%;
+        min-height: 80px;
+        padding: 14px 18px 12px;
+        gap: 12px;
+        border-radius: 14px;
+    }
+
+    .mood-copy span {
+        display: none;
+    }
+
+    .mood-copy {
+        gap: 0;
+    }
+
+    .mood-energy-card p {
+        font-size: 13px;
+    }
+
+    .daily-mood-options {
+        justify-content: flex-start;
+        gap: 24px;
+    }
+
+    .daily-mood-btn {
+        width: 34px;
+        min-height: 38px;
+    }
+
+    .daily-mood-btn span {
+        width: 27px;
+        height: 27px;
+        font-size: 19px;
+    }
+}
+
+/* Uncrossed dashboard layout: Focus, Journal, Calendar, Memories, Quick Thoughts */
+.quick-thoughts-card {
+    position: relative;
+    background: linear-gradient(145deg, rgba(255, 252, 247, 0.96), rgba(248, 239, 229, 0.88));
+}
+
+.quick-thoughts-header h2 {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #9a6734;
+    font-family: "Caveat", cursive;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.quick-thoughts-header h2 svg {
+    width: 16px;
+    height: 16px;
+    color: #d5a362;
+}
+
+.quick-thoughts-list {
+    margin-top: 22px;
+    display: grid;
+    gap: 14px;
+}
+
+.quick-thought-item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 22px;
+    align-items: center;
+    gap: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(216, 206, 194, 0.74);
+}
+
+.quick-thought-copy {
+    min-width: 0;
+    display: grid;
+    gap: 7px;
+}
+
+.quick-thought-copy strong {
+    color: #3f3831;
+    font-size: 13px;
+    line-height: 1.2;
+    font-weight: 750;
+}
+
+.quick-thought-copy input {
+    width: 100%;
+    padding: 0;
+    color: #5d5650;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    font-size: 12px;
+    line-height: 1.3;
+}
+
+.quick-thought-copy input::placeholder {
+    color: #aaa39c;
+}
+
+.quick-thought-item svg {
+    width: 17px;
+    height: 17px;
+    color: #c58b47;
+    stroke-width: 1.75;
+}
+
+.quick-thoughts-doodle {
+    position: absolute;
+    right: 26px;
+    bottom: 14px;
+    color: rgba(197, 139, 71, 0.58);
+    font-family: "Caveat", cursive;
+    font-size: 48px;
+    line-height: 1;
+    transform: rotate(-22deg);
+    pointer-events: none;
+}
+
+@media (min-width: 981px) {
+    .main-area {
+        grid-template-rows: 128px minmax(0, 1fr);
+    }
+
+    .dashboard-grid {
+        height: 100%;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: minmax(280px, 0.92fr) minmax(300px, 1fr) minmax(260px, 0.9fr);
+        grid-template-rows: minmax(192px, 0.82fr) minmax(248px, 1fr);
+        gap: 16px;
+        align-items: stretch;
+    }
+
+    .dashboard-module {
+        min-height: 0;
+        height: auto;
+        border-radius: 18px;
+    }
+
+    .goals-card.dashboard-module,
+    .calendar-card.dashboard-module,
+    .journal-card.dashboard-module,
+    .memories-module.dashboard-module,
+    .quick-thoughts-card.dashboard-module {
+        width: auto;
+        padding: 18px 20px;
+    }
+
+    .goals-card.dashboard-module {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .journal-card.dashboard-module {
+        grid-column: 2 / 4;
+        grid-row: 1;
+        overflow: visible;
+    }
+
+    .calendar-card.dashboard-module {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    .memories-module.dashboard-module {
+        grid-column: 2;
+        grid-row: 2;
+    }
+
+    .quick-thoughts-card.dashboard-module {
+        grid-column: 3;
+        grid-row: 2;
+        overflow: hidden;
+    }
+
+    .goals-header {
+        margin-bottom: 16px;
+    }
+
+    .goals-card .goals-list {
+        gap: 10px;
+    }
+
+    .goals-card .goal-item {
+        min-height: 27px;
+        font-size: 13px;
+        grid-template-columns: 24px minmax(0, 1fr) 58px 20px;
+    }
+
+    .goal-time {
+        font-size: 10px;
+    }
+
+    .goals-card .add-goal-form {
+        width: min(100%, 172px);
+        min-height: 38px;
+        margin-top: 12px;
+    }
+
+    .goals-card .add-goal-form input {
+        height: 38px;
+        font-size: 12px;
+    }
+
+    #journal-panel .journal-header h2 {
+        font-size: 17px;
+    }
+
+    #journal-panel .journal-header h2 svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    #scrapbook-date {
+        font-size: 12px;
+    }
+
+    #scrapbook-date::after {
+        font-size: 14px;
+    }
+
+    .journal-card.dashboard-module .journal-composer {
+        margin-top: 14px;
+        gap: 10px;
+    }
+
+    #journal-panel .journal-composer textarea {
+        min-height: 92px;
+        padding: 14px;
+        font-size: 13px;
+    }
+
+    #journal-panel .composer-tab {
+        width: 30px;
+        height: 30px;
+    }
+
+    #journal-panel .composer-tab svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    #journal-panel .type-mark {
+        font-size: 18px;
+    }
+
+    #journal-panel .save-entry-btn {
+        width: 58px;
+        height: 36px;
+        border-radius: 14px;
+        font-size: 13px;
+    }
+
+    .calendar-header {
+        margin-bottom: 10px;
+    }
+
+    .calendar-header span,
+    .recent-memories-inline h3,
+    .quick-thought-copy strong {
+        font-size: 12px;
+    }
+
+    .calendar-header h2 {
+        margin-top: 8px;
+        font-size: 14px;
+    }
+
+    #calendar-panel .calendar-weekdays {
+        margin-bottom: 8px;
+    }
+
+    #calendar-panel .calendar-days {
+        grid-auto-rows: minmax(23px, 1fr);
+    }
+
+    .calendar-empty,
+    .calendar-day {
+        min-height: 23px;
+        font-size: 12px;
+    }
+
+    #calendar-panel .calendar-legend {
+        margin-top: 8px;
+        padding-top: 4px;
+        font-size: 11px;
+    }
+
+    .memories-module .memory-composer {
+        flex: 0 0 auto;
+    }
+
+    .memory-composer textarea {
+        min-height: 36px;
+        font-size: 12px;
+    }
+
+    .memories-module .composer-footer {
+        min-height: 34px;
+    }
+
+    .recent-memories-inline {
+        margin-top: 10px;
+    }
+
+    .memory-card {
+        padding: 9px;
+        font-size: 12px;
+    }
+
+    .memory-topline {
+        margin-bottom: 5px;
+        font-size: 10px;
+    }
+
+    .memory-text {
+        font-size: 12px;
+        line-height: 1.35;
+    }
+
+    .memory-photo {
+        max-height: 76px;
+    }
+
+    .quick-thoughts-list {
+        margin-top: 18px;
+        gap: 13px;
     }
 }
