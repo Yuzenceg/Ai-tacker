@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -28,10 +28,9 @@
                 <a class="side-nav-item" href="#profile-panel"><i data-lucide="user-round"></i><span>Profile</span></a>
             </nav>
 
-            <a class="ai-sidebar-button" href="#journal-panel"><i data-lucide="sparkles"></i><span>Ai tracker</span></a>
+            <a class="ai-sidebar-button" href="#journal-panel"><i data-lucide="sparkles"></i><span>Ai tracker (button)</span></a>
 
             <div class="sidebar-footer" id="profile-panel">
-                <a class="side-nav-item settings-link" href="#profile-panel"><i data-lucide="settings"></i><span>Settings</span></a>
                 <div class="space-card" aria-label="Current space">
                     <span class="space-avatar">BS</span>
                     <div>
@@ -49,10 +48,26 @@
                     <p>Every day is a fresh start.</p>
                 </div>
 
-                <div class="mood-energy-card">
-                    <span class="mood-emojis" aria-hidden="true">😊 ⚡ 🌿</span>
-                    <p>Add a set your mood/ energy today contains emoji, to decide your mood</p>
-                </div>
+                <section class="mood-energy-card" aria-labelledby="daily-mood-title">
+                    <div class="mood-copy">
+                        <span id="daily-mood-title">Set your mood for today</span>
+                        <p id="daily-mood-status">Choose one emoji to check in.</p>
+                    </div>
+                    <div class="daily-mood-options" role="group" aria-label="Choose your mood for today">
+                        <button type="button" class="daily-mood-btn" data-daily-mood="sad" data-mood-label="Sad" aria-pressed="false">
+                            <span aria-hidden="true">&#128542;</span>
+                            <small>Sad</small>
+                        </button>
+                        <button type="button" class="daily-mood-btn" data-daily-mood="happy" data-mood-label="Happy" aria-pressed="false">
+                            <span aria-hidden="true">&#128522;</span>
+                            <small>Happy</small>
+                        </button>
+                        <button type="button" class="daily-mood-btn" data-daily-mood="angry" data-mood-label="Angry" aria-pressed="false">
+                            <span aria-hidden="true">&#128545;</span>
+                            <small>Angry</small>
+                        </button>
+                    </div>
+                </section>
 
                 <div class="date-pill">
                     <i data-lucide="calendar-days"></i>
@@ -63,11 +78,14 @@
 
             <div class="dashboard-grid">
                 <section class="goals-card panel dashboard-module" id="today-panel" aria-labelledby="goals-title">
-                    <h2 id="goals-title"><i data-lucide="target"></i>Today&rsquo;s Focus</h2>
+                    <div class="goals-header">
+                        <h2 id="goals-title"><i data-lucide="target"></i>Today&rsquo;s Focus</h2>
+                        <span id="goals-done-badge" class="goals-done-badge">0/0 done</span>
+                    </div>
                     <div id="goals-list" class="goals-list"></div>
                     <form id="add-goal-form" class="add-goal-form">
                         <label class="sr-only" for="new-goal-input">Add a new focus item</label>
-                        <input id="new-goal-input" type="text" placeholder="Add a new focus item..." autocomplete="off" required>
+                        <input id="new-goal-input" type="text" placeholder="Add a new focus" autocomplete="off" required>
                         <button type="submit" aria-label="Add focus item"><i data-lucide="plus"></i></button>
                     </form>
                 </section>
@@ -93,9 +111,10 @@
                         <div class="composer-footer">
                             <div class="composer-tabs">
                                 <button id="tab-text" class="composer-tab active" type="button"><span class="type-mark">Aa</span><span>Text</span></button>
+                                <button class="composer-tab journal-image-tab" type="button" aria-label="Add image"><i data-lucide="image"></i></button>
                                 <button id="tab-mood" class="composer-tab" type="button"><i data-lucide="smile"></i><span id="mood-status-text">Mood</span></button>
                             </div>
-                            <button class="save-entry-btn" type="submit" aria-label="Save Entry"><i data-lucide="send"></i></button>
+                            <button class="save-entry-btn" type="submit" aria-label="Save Entry">Save</button>
                         </div>
                     </form>
                 </section>

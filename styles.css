@@ -133,8 +133,9 @@ svg,
     align-items: center;
     gap: 13px;
     color: #55514d;
+    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     font-size: 15px;
-    font-weight: 800;
+    font-weight: 500;
     border-radius: 10px;
     transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
 }
@@ -1202,6 +1203,385 @@ svg,
     }
 }
 
+
+
+.goals-card.dashboard-module {
+    padding: 30px 28px 28px;
+    background:
+        radial-gradient(circle at 88% 10%, rgba(246, 240, 231, 0.9), transparent 30%),
+        linear-gradient(145deg, rgba(255, 253, 249, 0.98), rgba(250, 247, 241, 0.94));
+    border: 1px solid rgba(232, 224, 214, 0.88);
+    border-radius: 26px;
+    box-shadow: 0 22px 54px rgba(65, 55, 45, 0.09);
+}
+
+.goals-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 30px;
+}
+
+.goals-card .goals-header h2 {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    color: #252525;
+    border: 0;
+    font-size: 20px;
+    line-height: 1;
+    font-weight: 850;
+    letter-spacing: -0.035em;
+}
+
+.goals-card .goals-header h2 svg {
+    width: 24px;
+    height: 24px;
+    color: #2f2f2f;
+    stroke-width: 2.1;
+}
+
+.goals-done-badge {
+    padding: 10px 16px;
+    color: #5e8f66;
+    background: rgba(230, 239, 226, 0.9);
+    border-radius: 999px;
+    font-size: 14px;
+    line-height: 1;
+    font-weight: 850;
+    white-space: nowrap;
+}
+
+.goals-card .goals-list {
+    margin-top: 0;
+    padding: 0 6px 0 0;
+    gap: 19px;
+    flex: 1;
+}
+
+.goals-card .goal-item {
+    position: relative;
+    min-height: 30px;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr) 78px 24px;
+    align-items: center;
+    gap: 13px;
+    color: #303030;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.goals-card .goal-item:hover {
+    transform: none;
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+}
+
+.goals-card .goal-checkbox {
+    width: 24px;
+    height: 24px;
+    color: #fff;
+    background: transparent;
+    border: 2px solid #c9beb0;
+    border-radius: 5px;
+    box-shadow: none;
+}
+
+.goals-card .goal-checkbox:hover {
+    transform: none;
+    border-color: #8fb394;
+}
+
+.goals-card .goal-checkbox.checked {
+    background: #8fb394;
+    border-color: #8fb394;
+}
+
+.goals-card .goal-checkbox svg {
+    width: 16px;
+    height: 16px;
+    stroke-width: 3;
+}
+
+.goals-card .goal-text {
+    min-width: 0;
+    padding: 0;
+    color: inherit;
+    line-height: 1.25;
+    border-radius: 4px;
+}
+
+.goals-card .goal-text:focus {
+    color: #2f6fb3;
+    box-shadow: inset 0 -2px 0 rgba(47, 111, 179, 0.22);
+    outline: none;
+}
+
+.goals-card .goal-item.done .goal-text {
+    color: #3d3a37;
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
+    text-decoration-color: rgba(50, 47, 43, 0.62);
+}
+
+.goal-time {
+    justify-self: end;
+    color: #77716a;
+    font-size: 14px;
+    font-weight: 400;
+    white-space: nowrap;
+}
+
+.goals-card .goal-delete {
+    width: 24px;
+    height: 24px;
+    color: #a66f62;
+    background: rgba(166, 111, 98, 0.08);
+    border-radius: 8px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.goals-card .goal-item:hover .goal-delete,
+.goals-card .goal-delete:focus-visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.goals-card .add-goal-form {
+    width: min(100%, 208px);
+    min-height: 48px;
+    margin-top: 28px;
+    padding: 0 14px;
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr);
+    align-items: center;
+    gap: 8px;
+    background: rgba(246, 239, 230, 0.9);
+    border-radius: 17px;
+}
+
+.goals-card .add-goal-form input {
+    height: 48px;
+    padding: 0;
+    color: #8b6a43;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    font-size: 16px;
+    font-weight: 750;
+}
+
+.goals-card .add-goal-form input::placeholder {
+    color: #9d784b;
+    opacity: 1;
+}
+
+.goals-card .add-goal-form input:focus {
+    border: 0;
+    box-shadow: none;
+}
+
+.goals-card .add-goal-form button {
+    order: -1;
+    width: 28px;
+    height: 48px;
+    color: #a7773f;
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.goals-card .add-goal-form button svg {
+    width: 19px;
+    height: 19px;
+    stroke-width: 2.25;
+}
+
+.goals-card .add-goal-form button:hover {
+    transform: none;
+    box-shadow: none;
+    filter: none;
+}
+
+
+
+
+
+/* Calendar fill card layout */
+#calendar-panel.calendar-card.dashboard-module {
+    justify-content: stretch;
+}
+
+#calendar-panel .calendar-weekdays {
+    margin-bottom: 14px;
+}
+
+#calendar-panel .calendar-days {
+    flex: 1;
+    min-height: 0;
+    grid-auto-rows: minmax(48px, 1fr);
+    align-content: stretch;
+}
+
+#calendar-panel .calendar-empty,
+#calendar-panel .calendar-day {
+    width: 100%;
+    min-height: 0;
+    height: 100%;
+}
+
+#calendar-panel .calendar-day {
+    align-self: stretch;
+    justify-self: stretch;
+}
+
+#calendar-panel .calendar-legend {
+    margin-top: 18px;
+}
+
+/* Journal screenshot match */
+.journal-card.dashboard-module {
+    padding: 40px 30px 38px;
+    border: 1px solid rgba(232, 224, 214, 0.9);
+    border-radius: 28px;
+    background: rgba(255, 253, 249, 0.94);
+    box-shadow: 0 20px 46px rgba(65, 55, 45, 0.08);
+}
+
+#journal-panel .journal-header {
+    gap: 18px;
+}
+
+#journal-panel .journal-header h2 {
+    gap: 18px;
+    font-size: 24px;
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+#journal-panel .journal-header h2 svg {
+    width: 34px;
+    height: 34px;
+    color: var(--ink);
+    stroke-width: 1.7;
+}
+
+#scrapbook-date {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: #7f7870;
+    font-size: 20px;
+    line-height: 1;
+    font-weight: 700;
+}
+
+#scrapbook-date::after {
+    content: "?";
+    color: #7f7870;
+    font-size: 24px;
+    line-height: 0.7;
+    transform: translateY(-2px);
+}
+
+.journal-card.dashboard-module .journal-composer {
+    margin-top: 36px;
+    padding: 0;
+    gap: 20px;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+#journal-panel .journal-composer textarea {
+    min-height: 300px;
+    padding: 28px 24px;
+    resize: none;
+    background: rgba(255, 252, 247, 0.86);
+    border: 1px solid rgba(232, 224, 214, 0.95);
+    border-radius: 14px;
+    box-shadow: inset 0 1px 2px rgba(65, 55, 45, 0.03);
+    font-size: 21px;
+    line-height: 1.45;
+}
+
+#journal-panel .journal-composer textarea::placeholder {
+    color: #aaa6a0;
+    font-weight: 400;
+}
+
+#journal-panel .composer-footer {
+    padding-top: 0;
+}
+
+#journal-panel .composer-tabs {
+    gap: 24px;
+}
+
+#journal-panel .composer-tab {
+    min-width: 0;
+    width: 48px;
+    height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #756f67;
+    background: transparent;
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+#journal-panel .composer-tab.active,
+#journal-panel .composer-tab:hover {
+    color: #756f67;
+    background: transparent;
+}
+
+#journal-panel .composer-tab span:not(.type-mark),
+#journal-panel #mood-status-text {
+    display: none;
+}
+
+#journal-panel .composer-tab svg {
+    width: 31px;
+    height: 31px;
+    stroke-width: 1.55;
+}
+
+#journal-panel .type-mark {
+    color: #756f67;
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 1;
+}
+
+#journal-panel .save-entry-btn {
+    width: 96px;
+    height: 62px;
+    color: #fff;
+    background: #8db98f;
+    border-radius: 22px;
+    font-size: 21px;
+    font-weight: 700;
+    box-shadow: 0 12px 22px rgba(95, 141, 102, 0.18);
+}
+
+#journal-panel .save-entry-btn:hover {
+    background: #7eaa82;
+}
+
 @media (max-width: 1180px) {
     .app-shell {
         width: 100%;
@@ -1251,5 +1631,590 @@ svg,
 
     .save-entry-btn {
         width: 100%;
+    }
+}
+
+/* Redesigned dashboard layout */
+.brand-wrap {
+    display: grid;
+    gap: 18px;
+}
+
+.brand-name {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #8a5b2f;
+    font-family: "Caveat", cursive;
+    font-size: 20px;
+    line-height: 1;
+}
+
+.brand-name svg {
+    width: 16px;
+    height: 16px;
+    color: var(--leaf-dark);
+}
+
+.sidebar {
+    gap: 32px;
+}
+
+.side-nav {
+    gap: 8px;
+}
+
+.ai-sidebar-button {
+    min-height: 36px;
+    margin-top: -18px;
+    padding: 0 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #3f3831;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(216, 206, 194, 0.95);
+    border-radius: 9px;
+    font-size: 13px;
+    font-weight: 850;
+    box-shadow: 0 10px 24px rgba(55, 58, 64, 0.05);
+    transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease;
+}
+
+.ai-sidebar-button:hover {
+    color: var(--leaf-dark);
+    background: #fff;
+    transform: translateY(-1px);
+}
+
+.ai-sidebar-button svg {
+    width: 16px;
+    height: 16px;
+    color: var(--sun);
+}
+
+.settings-link {
+    padding: 0;
+    background: transparent;
+}
+
+.main-area {
+    padding: 28px 34px 28px 0;
+    gap: 22px;
+}
+
+.top-banner {
+    min-height: 86px;
+    display: grid;
+    grid-template-columns: minmax(290px, 1.1fr) minmax(280px, 0.9fr) max-content;
+    align-items: center;
+    gap: 24px;
+}
+
+.greeting-card h1 {
+    margin: 0;
+    color: var(--ink);
+    font-family: "Caveat", cursive;
+    font-size: clamp(34px, 3vw, 50px);
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+}
+
+.greeting-card h1 span {
+    color: var(--sun);
+    font-family: "Inter", system-ui, sans-serif;
+    font-weight: 400;
+}
+
+.greeting-card p {
+    width: max-content;
+    margin: 12px 0 0;
+    color: #5f5a55;
+    font-size: 16px;
+    font-weight: 600;
+    box-shadow: inset 0 -8px 0 rgba(197, 139, 71, 0.18);
+}
+
+.mood-energy-card {
+    min-height: 78px;
+    padding: 13px 16px;
+    display: grid;
+    grid-template-columns: minmax(120px, 1fr) auto;
+    align-items: center;
+    gap: 14px;
+    color: #3f3a35;
+    background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(248, 246, 241, 0.74)),
+        rgba(255, 255, 255, 0.74);
+    border: 1px solid rgba(216, 206, 194, 0.9);
+    border-radius: 22px;
+    box-shadow: 0 16px 36px rgba(55, 58, 64, 0.06);
+}
+
+.mood-copy {
+    display: grid;
+    gap: 5px;
+}
+
+.mood-copy span {
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.1;
+    font-weight: 850;
+    letter-spacing: -0.02em;
+}
+
+.mood-energy-card p {
+    margin: 0;
+    color: #7a746d;
+    font-size: 12px;
+    line-height: 1.3;
+    font-weight: 750;
+}
+
+.daily-mood-options {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.daily-mood-btn {
+    width: 56px;
+    min-height: 56px;
+    padding: 7px 6px 6px;
+    display: grid;
+    place-items: center;
+    gap: 2px;
+    color: #625c55;
+    background: rgba(255, 255, 255, 0.82);
+    border: 1px solid rgba(232, 224, 214, 0.95);
+    border-radius: 16px;
+    box-shadow: 0 10px 22px rgba(55, 58, 64, 0.04);
+    transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.daily-mood-btn span {
+    font-size: 22px;
+    line-height: 1;
+}
+
+.daily-mood-btn small {
+    font-size: 10px;
+    font-weight: 850;
+    line-height: 1;
+}
+
+.daily-mood-btn:hover,
+.daily-mood-btn:focus-visible {
+    transform: translateY(-2px);
+    background: #fff;
+    border-color: rgba(47, 111, 179, 0.28);
+    box-shadow: 0 14px 28px rgba(47, 111, 179, 0.09);
+    outline: none;
+}
+
+.daily-mood-btn.active {
+    color: #2f4f38;
+    background: linear-gradient(145deg, rgba(223, 234, 247, 0.95), rgba(232, 241, 226, 0.94));
+    border-color: rgba(111, 159, 118, 0.5);
+    box-shadow: 0 16px 30px rgba(111, 159, 118, 0.14);
+}
+
+.date-pill {
+    min-height: 46px;
+    padding: 0 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: #3f3a35;
+    background: rgba(255, 255, 255, 0.76);
+    border: 1px solid rgba(232, 224, 214, 0.96);
+    border-radius: 999px;
+    box-shadow: 0 12px 30px rgba(55, 58, 64, 0.05);
+    font-size: 13px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.date-pill svg {
+    width: 16px;
+    height: 16px;
+    color: #5f5a55;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: minmax(360px, 1fr);
+    gap: 22px;
+    align-items: stretch;
+}
+
+.dashboard-module {
+    min-height: 360px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 26px;
+    background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(248, 246, 241, 0.9)),
+        var(--paper);
+    border: 1px solid rgba(232, 224, 214, 0.95);
+    box-shadow: 0 24px 60px rgba(55, 58, 64, 0.07);
+}
+
+.goals-card.dashboard-module,
+.calendar-card.dashboard-module,
+.journal-card.dashboard-module,
+.memories-module.dashboard-module {
+    width: auto;
+    padding: 24px 26px;
+}
+
+.goals-card h2 {
+    padding-bottom: 12px;
+    font-size: 18px;
+    border-bottom: 0;
+}
+
+.goals-card h2 svg {
+    color: #5f5a55;
+}
+
+.goals-list {
+    margin-top: 12px;
+    gap: 8px;
+}
+
+.goal-item {
+    min-height: 42px;
+    padding: 0 10px;
+    gap: 10px;
+    background: transparent;
+    border: 0;
+    border-radius: 10px;
+    box-shadow: none;
+    font-size: 14px;
+}
+
+.goal-checkbox {
+    width: 19px;
+    height: 19px;
+    border-radius: 5px;
+    border-color: rgba(95, 90, 85, 0.28);
+}
+
+.goal-checkbox.checked {
+    background: #89a98c;
+    border-color: #89a98c;
+}
+
+.goal-delete {
+    width: 24px;
+    height: 24px;
+}
+
+.add-goal-form {
+    grid-template-columns: 1fr 44px;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 14px;
+}
+
+.add-goal-form input {
+    height: 44px;
+    background: #f5eee5;
+    border-color: rgba(232, 224, 214, 0.96);
+    border-radius: 999px;
+    font-size: 13px;
+}
+
+.add-goal-form button {
+    border-radius: 50%;
+    background: #f5eee5;
+    color: var(--sun);
+    box-shadow: none;
+}
+
+.journal-card.dashboard-module .journal-composer,
+.memories-module .memory-composer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.journal-composer textarea {
+    flex: 1;
+    min-height: 190px;
+}
+
+.memory-composer textarea {
+    min-height: 54px;
+}
+
+.calendar-card.dashboard-module {
+    justify-content: flex-start;
+}
+
+.calendar-header {
+    margin-bottom: 18px;
+}
+
+.calendar-header span {
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--ink);
+    font-size: 16px;
+}
+
+.calendar-header span svg {
+    width: 16px;
+    height: 16px;
+}
+
+.calendar-header h2 {
+    margin-top: 14px;
+    font-size: 16px;
+}
+
+.calendar-days {
+    gap: 6px;
+}
+
+.calendar-empty,
+.calendar-day {
+    min-height: 32px;
+}
+
+.calendar-day {
+    font-size: 13px;
+}
+
+.calendar-day.selected {
+    color: #4d4945;
+    background: #dcebd9;
+    box-shadow: none;
+}
+
+.calendar-legend {
+    margin: auto 0 0;
+    padding-top: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #8e8982;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.calendar-legend span {
+    width: 7px;
+    height: 7px;
+    background: var(--leaf);
+    border-radius: 50%;
+}
+
+.memories-module .memory-count-badge {
+    padding: 0;
+    color: #8e8982;
+    background: transparent;
+}
+
+.recent-memories-inline {
+    margin-top: 14px;
+    min-height: 0;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+.recent-memories-inline h3 {
+    margin: 0;
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.2;
+    font-weight: 850;
+}
+
+.memories-list {
+    min-height: 0;
+    overflow-y: auto;
+}
+
+.memory-card {
+    padding: 14px;
+    border-radius: 13px;
+    font-size: 13px;
+}
+
+.memory-topline {
+    margin-bottom: 8px;
+    font-size: 12px;
+}
+
+.memory-text {
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.memory-photo {
+    max-height: 120px;
+}
+
+.kind-footer {
+    min-height: 72px;
+    padding: 0 18px 6px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 16px;
+    color: #b69a83;
+    font-family: "Caveat", cursive;
+    font-size: 20px;
+}
+
+.floral-doodle {
+    color: #9eb48a;
+    font-size: 42px;
+    line-height: 1;
+    transform: rotate(-18deg);
+}
+
+.kind-footer svg {
+    width: 16px;
+    height: 16px;
+    color: #b69a83;
+}
+
+
+
+.goals-card.dashboard-module {
+    padding: 30px 28px 28px;
+    background:
+        radial-gradient(circle at 88% 10%, rgba(246, 240, 231, 0.9), transparent 30%),
+        linear-gradient(145deg, rgba(255, 253, 249, 0.98), rgba(250, 247, 241, 0.94));
+    border: 1px solid rgba(232, 224, 214, 0.88);
+    border-radius: 26px;
+    box-shadow: 0 22px 54px rgba(65, 55, 45, 0.09);
+}
+
+
+.goals-card h2,
+.goals-card .goals-header h2,
+.journal-header h2,
+.calendar-header span,
+.recent-memories h3,
+.recent-memories-inline h3,
+.ai-tracker-header h2,
+.ai-coach-header h3 {
+    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-weight: 700;
+}
+
+
+
+.journal-composer textarea,
+.memory-composer textarea,
+.journal-composer textarea::placeholder,
+.memory-composer textarea::placeholder,
+.ai-chat-input {
+    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-weight: 400;
+}
+
+.calendar-header h2,
+.calendar-weekdays,
+.calendar-day {
+    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-weight: 600;
+}
+
+.goal-time,
+.goals-done-badge,
+.ai-progress-row,
+.ai-progress-row strong,
+.memory-count-badge {
+    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    font-variant-caps: all-small-caps;
+    letter-spacing: 0.08em;
+}
+
+
+.goals-card .goals-done-badge {
+    padding: 13px 22px;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+}
+
+
+
+.journal-composer textarea::placeholder,
+.memory-composer textarea::placeholder {
+    font-weight: 300;
+}
+
+@media (max-width: 1180px) {
+    .top-banner {
+        grid-template-columns: 1fr;
+    }
+
+    .date-pill {
+        justify-self: start;
+    }
+}
+
+@media (max-width: 980px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: auto;
+    }
+
+    .dashboard-module {
+        min-height: 340px;
+    }
+}
+
+@media (max-width: 720px) {
+    .sidebar {
+        padding: 22px 16px;
+        gap: 20px;
+    }
+
+    .main-area {
+        padding: 0 14px 24px;
+    }
+
+    .top-banner {
+        gap: 14px;
+    }
+
+    .mood-energy-card {
+        grid-template-columns: 1fr;
+    }
+
+    .daily-mood-options {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .daily-mood-btn {
+        width: 100%;
+    }
+
+    .goals-card.dashboard-module,
+    .calendar-card.dashboard-module,
+    .journal-card.dashboard-module,
+    .memories-module.dashboard-module {
+        padding: 22px 18px;
+    }
+
+    .kind-footer {
+        justify-content: center;
     }
 }

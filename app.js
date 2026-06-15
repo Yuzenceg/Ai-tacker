@@ -1,7 +1,8 @@
 const STORAGE_KEYS = {
     goalsByDate: 'tracker:v3-goals-by-date',
     legacyGoals: 'tracker:v2-focus-items',
-    memories: 'tracker:v2-memories'
+    memories: 'tracker:v2-memories',
+    dailyMood: 'tracker:v1-daily-mood'
 };
 
 const SUPABASE_CONFIG = {
@@ -10,10 +11,14 @@ const SUPABASE_CONFIG = {
 };
 
 const DEFAULT_TODAY_GOALS = [
-    { id: createId(), text: 'practice english', done: false },
-    { id: createId(), text: 'do your homework', done: false },
-    { id: createId(), text: 'Time blocks', done: false }
+    { id: createId(), text: 'Morning workout', done: true },
+    { id: createId(), text: 'Study for 2 hours', done: true },
+    { id: createId(), text: 'Read 30 pages', done: true },
+    { id: createId(), text: 'Build side project', done: false },
+    { id: createId(), text: 'Plan tomorrow', done: false }
 ];
+
+const FOCUS_TIME_SLOTS = ['7:00 AM', '9:00 AM', '11:00 AM', '2:00 PM', '8:00 PM'];
 
 const MONTH_FORMATTER = new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' });
 const HEADER_FORMATTER = new Intl.DateTimeFormat('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
@@ -27,7 +32,8 @@ let selectedMemoryPhotoData = '';
 
 const state = {
     goalsByDate: loadGoalsByDate(),
-    memories: loadState(STORAGE_KEYS.memories, [])
+    memories: loadState(STORAGE_KEYS.memories, []),
+    dailyMood: loadDailyMood()
 };
 
 const elements = {};
@@ -51,6 +57,7 @@ function cacheElements() {
     elements.prevMonth = document.getElementById('prev-month');
     elements.nextMonth = document.getElementById('next-month');
     elements.goalsList = document.getElementById('goals-list');
+    elements.goalsDoneBadge = document.getElementById('goals-done-badge');
     elements.addGoalForm = document.getElementById('add-goal-form');
     elements.newGoalInput = document.getElementById('new-goal-input');
     elements.addMemoryForm = document.getElementById('add-memory-form');
@@ -60,6 +67,8 @@ function cacheElements() {
     elements.tabText = document.getElementById('tab-text');
     elements.tabMood = document.getElementById('tab-mood');
     elements.moodStatusText = document.getElementById('mood-status-text');
+    elements.dailyMoodStatus = document.getElementById('daily-mood-status');
+    elements.dailyMoodButtons = document.querySelectorAll('.daily-mood-btn');
     elements.memoryCountBadge = document.getElementById('memory-count-badge');
     elements.memoriesList = document.getElementById('memories-list');
     elements.addPhotoMemoryForm = document.getElementById('add-photo-memory-form');
@@ -84,6 +93,10 @@ function bindEvents() {
     elements.photoMemoryUpload.addEventListener('click', () => elements.photoMemoryFile.click());
     elements.photoMemoryFile.addEventListener('change', handleMemoryPhotoSelection);
     elements.removePhotoMemoryBtn.addEventListener('click', clearMemoryPhotoSelection);
+
+    elements.dailyMoodButtons.forEach((button) => {
+        button.addEventListener('click', () => selectDailyMood(button.dataset.dailyMood));
+    });
 
     elements.moodPicker.querySelectorAll('.mood-btn').forEach((button) => {
         button.addEventListener('click', () => selectMood(button.dataset.mood));
@@ -144,6 +157,7 @@ function renderAll() {
     renderDateLabels();
     renderGoals();
     renderMemories();
+    renderDailyMood();
     refreshIcons();
 }
 
@@ -226,7 +240,10 @@ function renderGoals() {
         elements.goalsList.appendChild(empty);
     }
 
-    goalsForDate.forEach((goal) => {
+    const completedGoals = goalsForDate.filter((goal) => goal.done).length;
+    elements.goalsDoneBadge.textContent = `${completedGoals}/${goalsForDate.length} done`;
+
+    goalsForDate.forEach((goal, index) => {
         const item = document.createElement('article');
         item.className = `goal-item${goal.done ? ' done' : ''}`;
 
@@ -252,6 +269,10 @@ function renderGoals() {
             }
         });
 
+        const time = document.createElement('span');
+        time.className = 'goal-time';
+        time.textContent = getGoalTime(index);
+
         const deleteButton = document.createElement('button');
         deleteButton.type = 'button';
         deleteButton.className = 'goal-delete';
@@ -259,7 +280,7 @@ function renderGoals() {
         deleteButton.innerHTML = '<i data-lucide="x"></i>';
         deleteButton.addEventListener('click', () => deleteGoal(goal.id));
 
-        item.append(checkbox, text, deleteButton);
+        item.append(checkbox, text, time, deleteButton);
         elements.goalsList.appendChild(item);
     });
 
@@ -511,11 +532,39 @@ function toggleMoodPicker() {
     elements.moodPicker.classList.toggle('hidden');
 }
 
+function getGoalTime(index) {
+    return FOCUS_TIME_SLOTS[index] || '';
+}
+
 function selectMood(mood) {
     elements.memoryMood.value = mood;
     elements.moodStatusText.textContent = mood || 'Mood';
     elements.tabMood.classList.toggle('active', Boolean(mood));
     elements.moodPicker.classList.add('hidden');
+}
+
+function selectDailyMood(mood) {
+    state.dailyMood = state.dailyMood === mood ? '' : mood;
+    saveState(STORAGE_KEYS.dailyMood, {
+        date: toDateKey(today),
+        mood: state.dailyMood
+    });
+    renderDailyMood();
+}
+
+function renderDailyMood() {
+    const selectedButton = Array.from(elements.dailyMoodButtons).find((button) => button.dataset.dailyMood === state.dailyMood);
+    const selectedLabel = selectedButton?.dataset.moodLabel || '';
+
+    elements.dailyMoodStatus.textContent = selectedLabel
+        ? `Today feels ${selectedLabel.toLowerCase()}.`
+        : 'Choose one emoji to check in.';
+
+    elements.dailyMoodButtons.forEach((button) => {
+        const isSelected = button === selectedButton;
+        button.classList.toggle('active', isSelected);
+        button.setAttribute('aria-pressed', String(isSelected));
+    });
 }
 
 function getSelectedDateKey() {
@@ -536,6 +585,12 @@ function saveGoalsByDate() {
         if (!state.goalsByDate[dateKey].length) delete state.goalsByDate[dateKey];
     });
     saveState(STORAGE_KEYS.goalsByDate, state.goalsByDate);
+}
+
+function loadDailyMood() {
+    const stored = loadState(STORAGE_KEYS.dailyMood, null);
+    if (!stored || stored.date !== toDateKey(today)) return '';
+    return stored.mood || '';
 }
 
 function loadGoalsByDate() {
