@@ -132,6 +132,8 @@ function cacheElements() {
     elements.dropdownEdit         = document.getElementById('dropdown-edit');
     elements.dropdownConnect      = document.getElementById('dropdown-connect');
     elements.dropdownSignout      = document.getElementById('dropdown-signout');
+    elements.sidebarSettings      = document.getElementById('sidebar-settings');
+    elements.sidebarLogout        = document.getElementById('sidebar-logout');
 
     // Profile modal
     elements.profileModalOverlay  = document.getElementById('profile-modal-overlay');
@@ -205,6 +207,15 @@ function bindEvents() {
     }
 
     elements.dropdownSignout.addEventListener('click', () => {
+        closeProfileDropdown();
+        signOut();
+    });
+
+    elements.sidebarSettings.addEventListener('click', () => {
+        console.log('Settings clicked');
+    });
+
+    elements.sidebarLogout.addEventListener('click', () => {
         closeProfileDropdown();
         signOut();
     });

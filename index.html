@@ -30,6 +30,16 @@
             </nav>
 
             <div class="sidebar-footer" id="profile-panel">
+                <div class="sidebar-account-actions" aria-label="Account actions">
+                    <button type="button" class="side-nav-item sidebar-action" id="sidebar-settings">
+                        <i data-lucide="settings"></i><span>Settings</span>
+                    </button>
+                    <button type="button" class="side-nav-item sidebar-action" id="sidebar-logout">
+                        <i data-lucide="log-out"></i><span>Log out</span>
+                    </button>
+                </div>
+                <div class="sidebar-footer-divider" aria-hidden="true"></div>
+
                 <!-- Profile dropdown (populated by app.js) -->
                 <div class="profile-dropdown" id="profile-dropdown" role="menu">
                     <button type="button" class="dropdown-item" id="dropdown-edit" role="menuitem">
