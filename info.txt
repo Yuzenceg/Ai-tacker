@@ -1,16 +1,24 @@
-Keep my current visual theme exactly as it is now (colors, fonts, background, icons, card styles).
+Add complete user authentication to my application using Supabase Auth.
 
-Only remove the following elements from the page completely:
-- Any top or side navigation links: “Dashboard”, “Goals”, “Calendar”, “Memories”, “Journey”
-- Any status text: “Connected”, “All changes saved”
-- Any extra headings or badges: “BS” (if not part of original content), “Blue Sky”, “Keep going!”
+Requirements:
 
-Do not remove the real “Calendar” section (the month grid) or the “Memories & Journal” section.  
-Keep only the layout sections that were in Version 1:  
-Today with Activities & Goals, Memories & Journal, Recent Memories, and the Calendar grid.
+- Users can Sign Up, Log In, Log Out, and Reset Password.
+- Sessions persist across page refreshes.
+- Unauthenticated users are redirected to the login page.
+- Authenticated users are redirected to the dashboard.
 
-After removal, the remaining elements should keep the same spacing and visual style.
---- Codex Reply ---
-I read your instructions. The next change should remove the sidebar/top navigation items "Dashboard", "Goals", "Calendar", "Memories", and "Journey", plus the status/profile text "Connected", "All changes saved", "BS", "Blue Sky", and "Keep going!".
+Security:
 
-The real Calendar month grid, Today/Activities & Goals section, Memories & Journal, and Recent Memories should stay. The current visual theme should remain unchanged.
+- Every user has their own private workspace.
+- Goals, journal entries, memories, calendar data, and mood tracking must be tied to a user_id.
+- Use Supabase Row Level Security (RLS).
+- Users can only view, create, edit, and delete their own data.
+- No user should ever be able to access another user's data.
+
+Design:
+
+- Match the existing website aesthetic.
+- Warm cream background, soft beige tones, green accents, rounded corners, subtle shadows.
+- Minimalist notebook/journal style.
+- Do NOT create a generic SaaS or corporate login page.
+

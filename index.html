@@ -26,18 +26,31 @@
                 <a class="side-nav-item" href="#calendar-panel"><i data-lucide="calendar-days"></i><span>Calendar</span></a>
                 <a class="side-nav-item" href="#memory-panel"><i data-lucide="notebook-tabs"></i><span>Memories</span></a>
                 <a class="side-nav-item" href="#profile-panel"><i data-lucide="user-round"></i><span>Profile</span></a>
+                <a class="side-nav-item ai-sidebar-button" href="#journal-panel"><i data-lucide="bot"></i><span>AI Coach</span></a>
             </nav>
 
-            <a class="ai-sidebar-button" href="#journal-panel"><i data-lucide="sparkles"></i><span>Ai tracker (button)</span></a>
-
             <div class="sidebar-footer" id="profile-panel">
-                <div class="space-card" aria-label="Current space">
-                    <span class="space-avatar">BS</span>
-                    <div>
-                        <strong>Blue Sky</strong>
-                        <small>Keep growing</small>
-                    </div>
+                <!-- Profile dropdown (populated by app.js) -->
+                <div class="profile-dropdown" id="profile-dropdown" role="menu">
+                    <button type="button" class="dropdown-item" id="dropdown-edit" role="menuitem">
+                        <i data-lucide="user-pen"></i> Edit Profile
+                    </button>
+                    <button type="button" class="dropdown-item" id="dropdown-connect" role="menuitem" style="color: #3a6040;">
+                        <i data-lucide="cloud-lightning" style="color: #5e8f66;"></i> Connect Supabase
+                    </button>
+                    <div class="dropdown-divider"></div>
+                    <button type="button" class="dropdown-item danger" id="dropdown-signout" role="menuitem">
+                        <i data-lucide="log-out"></i> Sign Out
+                    </button>
                 </div>
+                <button type="button" class="profile-trigger" id="profile-trigger" aria-haspopup="true" aria-expanded="false">
+                    <span class="profile-avatar" id="profile-avatar">?</span>
+                    <span class="profile-info">
+                        <span class="profile-name" id="profile-name">Loading…</span>
+                        <span class="profile-email" id="profile-email"></span>
+                    </span>
+                    <i data-lucide="chevron-up"></i>
+                </button>
             </div>
         </aside>
 
@@ -48,39 +61,41 @@
                     <p>Friday, June 12, 2026</p>
                 </div>
 
-                <section class="mood-energy-card" aria-labelledby="daily-mood-title">
-                    <div class="mood-copy">
-                        <span id="daily-mood-title">Mood &amp; Energy</span>
-                        <p id="daily-mood-status">How are you feeling?</p>
-                    </div>
-                    <div class="daily-mood-options" role="group" aria-label="Choose your mood for today">
-                        <button type="button" class="daily-mood-btn" data-daily-mood="great" data-mood-label="Great" aria-pressed="false">
-                            <span aria-hidden="true">&#9787;</span>
-                            <small>Great</small>
-                        </button>
-                        <button type="button" class="daily-mood-btn" data-daily-mood="good" data-mood-label="Good" aria-pressed="false">
-                            <span aria-hidden="true">&#9786;</span>
-                            <small>Good</small>
-                        </button>
-                        <button type="button" class="daily-mood-btn" data-daily-mood="okay" data-mood-label="Okay" aria-pressed="false">
-                            <span aria-hidden="true">&#9786;</span>
-                            <small>Okay</small>
-                        </button>
-                        <button type="button" class="daily-mood-btn" data-daily-mood="low" data-mood-label="Low" aria-pressed="false">
-                            <span aria-hidden="true">&#9785;</span>
-                            <small>Low</small>
-                        </button>
-                        <button type="button" class="daily-mood-btn" data-daily-mood="sad" data-mood-label="Sad" aria-pressed="false">
-                            <span aria-hidden="true">&#9785;</span>
-                            <small>Sad</small>
-                        </button>
-                    </div>
-                </section>
+                <div class="header-actions">
+                    <section class="mood-energy-card" aria-labelledby="daily-mood-title">
+                        <div class="mood-copy">
+                            <span id="daily-mood-title">Mood &amp; Energy</span>
+                            <p id="daily-mood-status">How are you feeling?</p>
+                        </div>
+                        <div class="daily-mood-options" role="group" aria-label="Choose your mood for today">
+                            <button type="button" class="daily-mood-btn" data-daily-mood="sad" data-mood-label="Sad" aria-pressed="false">
+                                <span aria-hidden="true"></span>
+                                <small>Sad</small>
+                            </button>
+                            <button type="button" class="daily-mood-btn" data-daily-mood="low" data-mood-label="Low" aria-pressed="false">
+                                <span aria-hidden="true"></span>
+                                <small>Low</small>
+                            </button>
+                            <button type="button" class="daily-mood-btn" data-daily-mood="okay" data-mood-label="Okay" aria-pressed="false">
+                                <span aria-hidden="true"></span>
+                                <small>Okay</small>
+                            </button>
+                            <button type="button" class="daily-mood-btn" data-daily-mood="good" data-mood-label="Good" aria-pressed="false">
+                                <span aria-hidden="true"></span>
+                                <small>Good</small>
+                            </button>
+                            <button type="button" class="daily-mood-btn" data-daily-mood="great" data-mood-label="Great" aria-pressed="false">
+                                <span aria-hidden="true"></span>
+                                <small>Great</small>
+                            </button>
+                        </div>
+                    </section>
 
-                <div class="date-pill">
-                    <i data-lucide="calendar-days"></i>
-                    <span id="selected-date-display">Today, Saturday, Jun 6</span>
-                    <i data-lucide="chevron-down"></i>
+                    <div class="date-pill">
+                        <i data-lucide="calendar-days"></i>
+                        <span id="selected-date-display">Today, Saturday, Jun 6</span>
+                        <i data-lucide="chevron-down"></i>
+                    </div>
                 </div>
             </header>
 
@@ -209,6 +224,35 @@
 
 
         </main>
+    </div>
+
+    <!-- Profile edit modal -->
+    <div class="profile-modal-overlay hidden" id="profile-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="profile-modal-title">
+        <div class="profile-modal">
+            <div class="profile-modal-header">
+                <h2 id="profile-modal-title">Edit Profile</h2>
+                <button type="button" class="profile-modal-close" id="profile-modal-close" aria-label="Close">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="profile-modal-body">
+                <div class="profile-field">
+                    <label for="profile-input-name">Display Name</label>
+                    <input id="profile-input-name" type="text" placeholder="Your name" autocomplete="name">
+                </div>
+                <div class="profile-field">
+                    <label for="profile-input-password">New Password <span style="font-weight:500;color:#a09992;">(leave blank to keep current)</span></label>
+                    <input id="profile-input-password" type="password" placeholder="At least 6 characters" autocomplete="new-password">
+                </div>
+                <div id="profile-modal-msg" class="profile-modal-msg hidden"></div>
+            </div>
+            <div class="profile-modal-footer">
+                <button type="button" class="profile-cancel-btn" id="profile-modal-cancel">Cancel</button>
+                <button type="button" class="profile-save-btn" id="profile-modal-save">
+                    <i data-lucide="check"></i> Save Changes
+                </button>
+            </div>
+        </div>
     </div>
 
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>

@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In — Tracker</title>
+    <meta name="description" content="Sign in to your personal tracker — a calm space for goals, memories, and daily reflection.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="login-body">
+
+    <div class="login-shell">
+
+        <!-- ── Left decorative panel ── -->
+        <aside class="login-panel" aria-hidden="true">
+            <div class="login-panel-inner">
+                <div class="login-brand">
+                    <span class="login-brand-mark">✦</span>
+                    <span class="login-brand-name">Your Tracker</span>
+                </div>
+                <div class="login-illustration">
+                    <div class="login-quote-card">
+                        <span class="login-quote-mark">"</span>
+                        <p class="login-quote">Small steps every day<br>build a life worth remembering.</p>
+                        <span class="login-quote-doodle">&#9752;</span>
+                    </div>
+                    <div class="login-dots">
+                        <span></span><span></span><span></span><span></span><span></span>
+                        <span></span><span></span><span></span><span></span><span></span>
+                        <span></span><span></span><span></span><span></span><span></span>
+                        <span></span><span></span><span></span><span></span><span></span>
+                        <span></span><span></span><span></span><span></span><span></span>
+                    </div>
+                </div>
+                <div class="login-panel-footer">
+                    <span>📖 Journal</span>
+                    <span>🎯 Goals</span>
+                    <span>🗓 Calendar</span>
+                    <span>📸 Memories</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ── Right auth panel ── -->
+        <main class="login-form-side" id="auth-main">
+
+            <div class="login-form-wrap">
+
+                <!-- Welcome / Setup Choice -->
+                <section class="auth-view" id="view-welcome" aria-labelledby="welcome-title">
+                    <div class="auth-header">
+                        <h1 id="welcome-title">Choose your workspace ✦</h1>
+                        <p>Select how you would like to store your goals and memories.</p>
+                    </div>
+                    <div class="auth-setup-options">
+                        <button type="button" class="setup-card" id="welcome-choose-cloud">
+                            <span class="setup-card-icon">
+                                <i data-lucide="cloud-lightning"></i>
+                            </span>
+                            <span class="setup-card-info">
+                                <span class="setup-card-title">Cloud Mode (Recommended)</span>
+                                <span class="setup-card-desc">Connect a Supabase project to enable secure login and sync data across devices.</span>
+                            </span>
+                        </button>
+                        <button type="button" class="setup-card local" id="welcome-choose-local">
+                            <span class="setup-card-icon">
+                                <i data-lucide="hard-drive"></i>
+                            </span>
+                            <span class="setup-card-info">
+                                <span class="setup-card-title">Local-Only Mode</span>
+                                <span class="setup-card-desc">Store data locally in this browser. Highly private, fast, and no setup required.</span>
+                            </span>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Configuration Setup -->
+                <section class="auth-view" id="view-config" aria-labelledby="config-title">
+                    <div class="auth-header">
+                        <h1 id="config-title">Connect Supabase ⚡</h1>
+                        <p>Sync your workspace data securely in the cloud.</p>
+                    </div>
+                    <form id="config-form" class="auth-form" novalidate>
+                        <div class="auth-config-info">
+                            <p>You can find these keys in your Supabase Project Settings under <strong>API</strong>.</p>
+                        </div>
+                        <div class="auth-field">
+                            <label for="config-url">Project URL</label>
+                            <div class="auth-input-wrap">
+                                <i data-lucide="link"></i>
+                                <input id="config-url" type="url" placeholder="https://your-project.supabase.co" required>
+                            </div>
+                        </div>
+                        <div class="auth-field">
+                            <label for="config-anonkey">API Anon Key</label>
+                            <div class="auth-input-wrap">
+                                <i data-lucide="key-round"></i>
+                                <input id="config-anonkey" type="password" placeholder="eyJhbGciOi..." required>
+                            </div>
+                        </div>
+                        <div id="config-error" class="auth-message auth-error hidden"></div>
+                        <button type="submit" id="config-btn" class="auth-submit-btn">
+                            <span class="auth-btn-text">Save & Connect</span>
+                            <span class="auth-btn-spinner hidden" aria-hidden="true"></span>
+                        </button>
+                    </form>
+                    <p class="auth-switch"><button type="button" class="auth-link-btn" id="config-back">← Back</button></p>
+                </section>
+
+                <!-- Sign In -->
+                <section class="auth-view" id="view-signin" aria-labelledby="signin-title">
+                    <div class="auth-header">
+                        <h1 id="signin-title">Welcome back ☀️</h1>
+                        <p>Sign in to your personal space.</p>
+                    </div>
+                    <form id="signin-form" class="auth-form" novalidate>
+                        <div class="auth-field">
+                            <label for="signin-email">Email</label>
+                            <div class="auth-input-wrap">
+                                <i data-lucide="mail"></i>
+                                <input id="signin-email" type="email" placeholder="you@example.com" autocomplete="email" required>
+                            </div>
+                        </div>
+                        <div class="auth-field">
+                            <label for="signin-password">
+                                Password
+                                <button type="button" class="auth-link-btn" id="goto-forgot">Forgot?</button>
+                            </label>
+                            <div class="auth-input-wrap">
+                                <i data-lucide="lock"></i>
+                                <input id="signin-password" type="password" placeholder="Your password" autocomplete="current-password" required>
+                                <button type="button" class="auth-eye-btn" id="signin-eye" aria-label="Toggle password visibility">
+                                    <i data-lucide="eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="signin-error" class="auth-message auth-error hidden"></div>
+                        <button type="submit" id="signin-btn" class="auth-submit-btn">
+                            <span class="auth-btn-text">Sign In</span>
+                            <span class="auth-btn-spinner hidden" aria-hidden="true"></span>
+                        </button>
+                    </form>
+                    <p class="auth-switch">Don't have an account? <button type="button" class="auth-link-btn" id="goto-signup">Sign Up</button></p>
+                </section>
+
+                <!-- Sign Up -->
+                <section class="auth-view" id="view-signup" aria-labelledby="signup-title">
+                    <div class="auth-header">
+                        <h1 id="signup-title">Create your space 🌱</h1>
+                        <p>Start tracking your goals and memories.</p>
+                    </div>
+                    <form id="signup-form" class="auth-form" novalidate>
+                        <div class="auth-field">
+                            <label for="signup-name">Your Name</label>
+                            <div class="auth-input-wrap">
+                                <i data-lucide="user"></i>
+                                <input id="signup-name" type="text" placeholder="Blue Sky" autocomplete="name">
+                            </div>
+                        </div>
+                        <div class="auth-field">
+                            <label for="signup-email">Email</label>
+                            <div class="auth-input-wrap">
+                                <i data-lucide="mail"></i>
+                                <input id="signup-email" type="email" placeholder="you@example.com" autocomplete="email" required>
+                            </div>
+                        </div>
+                        <div class="auth-field">
+                            <label for="signup-password">Password</label>
+                            <div class="auth-input-wrap">
+                                <i data-lucide="lock"></i>
+                                <input id="signup-password" type="password" placeholder="At least 6 characters" autocomplete="new-password" required>
+                                <button type="button" class="auth-eye-btn" id="signup-eye" aria-label="Toggle password visibility">
+                                    <i data-lucide="eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="signup-error" class="auth-message auth-error hidden"></div>
+                        <div id="signup-success" class="auth-message auth-success hidden"></div>
+                        <button type="submit" id="signup-btn" class="auth-submit-btn">
+                            <span class="auth-btn-text">Create Account</span>
+                            <span class="auth-btn-spinner hidden" aria-hidden="true"></span>
+                        </button>
+                    </form>
+                    <p class="auth-switch">Already have an account? <button type="button" class="auth-link-btn" id="goto-signin">Sign In</button></p>
+                </section>
+
+                <!-- Forgot Password -->
+                <section class="auth-view" id="view-forgot" aria-labelledby="forgot-title">
+                    <div class="auth-header">
+                        <h1 id="forgot-title">Reset password 🔑</h1>
+                        <p>We'll send a reset link to your email.</p>
+                    </div>
+                    <form id="forgot-form" class="auth-form" novalidate>
+                        <div class="auth-field">
+                            <label for="forgot-email">Email</label>
+                            <div class="auth-input-wrap">
+                                <i data-lucide="mail"></i>
+                                <input id="forgot-email" type="email" placeholder="you@example.com" autocomplete="email" required>
+                            </div>
+                        </div>
+                        <div id="forgot-error" class="auth-message auth-error hidden"></div>
+                        <div id="forgot-success" class="auth-message auth-success hidden"></div>
+                        <button type="submit" id="forgot-btn" class="auth-submit-btn">
+                            <span class="auth-btn-text">Send Reset Link</span>
+                            <span class="auth-btn-spinner hidden" aria-hidden="true"></span>
+                        </button>
+                    </form>
+                    <p class="auth-switch"><button type="button" class="auth-link-btn" id="back-signin">← Back to Sign In</button></p>
+                </section>
+
+            </div>
+        </main>
+
+    </div>
+
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // ── Config (same as app.js) ──────────────────────────────────────────
+        const HARDCODED_URL = '';      // ← paste your Supabase project URL
+        const HARDCODED_KEY = ''; // ← paste your Supabase anon key
+
+        const SUPABASE_URL = HARDCODED_URL || localStorage.getItem('supabase_url') || '';
+        const SUPABASE_ANON_KEY = HARDCODED_KEY || localStorage.getItem('supabase_anon_key') || '';
+
+        // ── Init ─────────────────────────────────────────────────────────────
+        lucide.createIcons();
+
+        let sb = null;
+        if (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase) {
+            try {
+                sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            } catch (err) {
+                console.error('Failed to initialize Supabase client:', err);
+            }
+        }
+
+        // Redirect to dashboard if already logged in
+        if (sb && localStorage.getItem('supabase_mode') !== 'local') {
+            sb.auth.getSession().then(({ data }) => {
+                if (data.session) window.location.replace('index.html');
+            }).catch(err => console.error(err));
+        }
+
+        // ── View switching ───────────────────────────────────────────────────
+        function showView(id) {
+            document.querySelectorAll('.auth-view').forEach(v => v.classList.remove('active'));
+            const target = document.getElementById(id);
+            if (target) {
+                target.classList.add('active');
+                // Focus first input
+                setTimeout(() => {
+                    const input = target.querySelector('input');
+                    if (input) input.focus();
+                }, 120);
+            }
+        }
+
+        // Determine initial view
+        const params = new URLSearchParams(window.location.search);
+        const forceConfig = params.get('config') === '1';
+
+        if (forceConfig) {
+            showView('view-config');
+            // Prefill existing keys if any
+            document.getElementById('config-url').value = localStorage.getItem('supabase_url') || '';
+            document.getElementById('config-anonkey').value = localStorage.getItem('supabase_anon_key') || '';
+        } else if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+            showView('view-welcome');
+        } else {
+            showView('view-signin');
+        }
+
+        // Welcome Choice Handlers
+        document.getElementById('welcome-choose-cloud').addEventListener('click', () => {
+            showView('view-config');
+        });
+
+        document.getElementById('welcome-choose-local').addEventListener('click', () => {
+            localStorage.setItem('supabase_mode', 'local');
+            // Clear keys if any, so we strictly use local storage
+            localStorage.removeItem('supabase_url');
+            localStorage.removeItem('supabase_anon_key');
+            window.location.replace('index.html');
+        });
+
+        // Config Form Handlers
+        document.getElementById('config-back').addEventListener('click', () => {
+            if (forceConfig) {
+                window.location.replace('index.html');
+            } else {
+                showView('view-welcome');
+            }
+        });
+
+        document.getElementById('config-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            hideMsg('config-error');
+            
+            const url = document.getElementById('config-url').value.trim();
+            const anonKey = document.getElementById('config-anonkey').value.trim();
+
+            if (!url || !anonKey) {
+                return showMsg('config-error', 'Please fill in both fields.', 'error');
+            }
+
+            setLoading('config-btn', true);
+
+            try {
+                // Test client initialization and minimal request
+                const testSb = window.supabase.createClient(url, anonKey);
+                // Call a dummy auth query to verify the config is valid
+                const { error } = await testSb.auth.getSession();
+                
+                if (error) {
+                    throw new Error(error.message);
+                }
+
+                // If successful, save to localStorage
+                localStorage.setItem('supabase_url', url);
+                localStorage.setItem('supabase_anon_key', anonKey);
+                localStorage.setItem('supabase_mode', 'cloud');
+                
+                showMsg('config-error', 'Successfully connected! Redirecting...', 'success');
+                setTimeout(() => {
+                    window.location.replace('index.html');
+                }, 1000);
+            } catch (err) {
+                showMsg('config-error', 'Connection failed: ' + err.message, 'error');
+            } finally {
+                setLoading('config-btn', false);
+            }
+        });
+
+        document.getElementById('goto-signup').addEventListener('click', () => showView('view-signup'));
+        document.getElementById('goto-signin').addEventListener('click', () => showView('view-signin'));
+        document.getElementById('goto-forgot').addEventListener('click', () => showView('view-forgot'));
+        document.getElementById('back-signin').addEventListener('click', () => showView('view-signin'));
+
+        // ── Password toggle helpers ──────────────────────────────────────────
+        function togglePasswordVisibility(inputId, btnId) {
+            const input = document.getElementById(inputId);
+            const btn = document.getElementById(btnId);
+            btn.addEventListener('click', () => {
+                const isPassword = input.type === 'password';
+                input.type = isPassword ? 'text' : 'password';
+                btn.innerHTML = isPassword
+                    ? '<i data-lucide="eye-off"></i>'
+                    : '<i data-lucide="eye"></i>';
+                lucide.createIcons();
+            });
+        }
+        togglePasswordVisibility('signin-password', 'signin-eye');
+        togglePasswordVisibility('signup-password', 'signup-eye');
+
+        // ── UI helpers ───────────────────────────────────────────────────────
+        function setLoading(btnId, loading) {
+            const btn = document.getElementById(btnId);
+            btn.querySelector('.auth-btn-text').classList.toggle('hidden', loading);
+            btn.querySelector('.auth-btn-spinner').classList.toggle('hidden', !loading);
+            btn.disabled = loading;
+        }
+
+        function showMsg(id, msg, type) {
+            const el = document.getElementById(id);
+            el.textContent = msg;
+            el.className = `auth-message auth-${type}`;
+        }
+
+        function hideMsg(id) {
+            const el = document.getElementById(id);
+            el.classList.add('hidden');
+        }
+
+        function noSupabase(errorId) {
+            showMsg(errorId, 'Supabase is not connected. Please reload or go back to choose a workspace option.', 'error');
+        }
+
+        // ── Sign In ──────────────────────────────────────────────────────────
+        document.getElementById('signin-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            hideMsg('signin-error');
+            if (!sb) return noSupabase('signin-error');
+
+            const email = document.getElementById('signin-email').value.trim();
+            const password = document.getElementById('signin-password').value;
+
+            setLoading('signin-btn', true);
+            const { error } = await sb.auth.signInWithPassword({ email, password });
+            setLoading('signin-btn', false);
+
+            if (error) {
+                showMsg('signin-error', error.message, 'error');
+            } else {
+                window.location.replace('index.html');
+            }
+        });
+
+        // ── Sign Up ──────────────────────────────────────────────────────────
+        document.getElementById('signup-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            hideMsg('signup-error');
+            hideMsg('signup-success');
+            if (!sb) return noSupabase('signup-error');
+
+            const name = document.getElementById('signup-name').value.trim();
+            const email = document.getElementById('signup-email').value.trim();
+            const password = document.getElementById('signup-password').value;
+
+            if (password.length < 6) {
+                return showMsg('signup-error', 'Password must be at least 6 characters.', 'error');
+            }
+
+            setLoading('signup-btn', true);
+            const { data, error } = await sb.auth.signUp({
+                email, password,
+                options: { data: { display_name: name || email.split('@')[0] } }
+            });
+            setLoading('signup-btn', false);
+
+            if (error) {
+                showMsg('signup-error', error.message, 'error');
+            } else if (data.session) {
+                window.location.replace('index.html');
+            } else {
+                showMsg('signup-success', '✓ Check your email to confirm your account, then sign in.', 'success');
+            }
+        });
+
+        // ── Forgot Password ──────────────────────────────────────────────────
+        document.getElementById('forgot-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            hideMsg('forgot-error');
+            hideMsg('forgot-success');
+            if (!sb) return noSupabase('forgot-error');
+
+            const email = document.getElementById('forgot-email').value.trim();
+            setLoading('forgot-btn', true);
+            const { error } = await sb.auth.resetPasswordForEmail(email, {
+                redirectTo: window.location.origin + '/index.html'
+            });
+            setLoading('forgot-btn', false);
+
+            if (error) {
+                showMsg('forgot-error', error.message, 'error');
+            } else {
+                showMsg('forgot-success', '✓ Reset link sent! Check your inbox.', 'success');
+            }
+        });
+    </script>
+</body>
+</html>
